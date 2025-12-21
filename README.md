@@ -34,3 +34,12 @@ Blog development:
 Testing tips (CI):
 
 - The `jekyll-build` workflow runs a non-blocking HTML link check using `html-proofer`.
+
+If deploy fails with a 403 (permission denied)
+
+- Cause: GitHub Actions' `GITHUB_TOKEN` may be restricted from creating or pushing the `gh-pages` branch depending on repository-level Actions permissions. The deploy job will report a 403 like: `Permission to ... denied to github-actions[bot]`.
+- Quick fixes:
+	1. Easiest: In the repo **Settings → Actions → General**, set **Workflow permissions** to **Read and write** and save. Then re-run the "Deploy to GitHub Pages" workflow.
+	2. More controlled (recommended for locked-down repos): Create a personal access token (PAT) with **repo** scope, then add it as a repository secret named `GH_PAGES_DEPLOY_TOKEN` (Settings → Secrets and variables → Actions → New repository secret). The deploy workflow is already configured to use this secret if present.
+
+If you want, I can (A) make the workflow use a PAT secret (already done), and commit instructions to the README (done), or (B) guide you through enabling the repo-level Actions write permission so you can re-run the deploy — tell me which you prefer and I'll proceed.

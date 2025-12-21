@@ -34,4 +34,8 @@ jobs:
         with:
           publish_dir: ./_site
           publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer a PAT stored in secrets for first-time branch creation or when
+          # repository Actions permissions restrict GITHUB_TOKEN write access.
+          # Create a personal access token with 'repo' scope and store it as
+          # the repository secret `GH_PAGES_DEPLOY_TOKEN` (see README for steps).
+          github_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
