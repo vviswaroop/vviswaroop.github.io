@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viswaroop Vadlamudi - Senior Cloud & DevSecOps Engineer</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --text: #1f2937;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+            border-radius: 8px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            background: var(--border);
+        }
+
+        /* Achievement cards */
+        .achievement-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+        /* Contact section */
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -7px;
+            top: 0;
+        }
+
+        .timeline-date {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .cert-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header {
+                padding: 3rem 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-background"></div>
+        <div class="header-content">
+            <h1>Viswaroop Vadlamudi</h1>
+            <p class="subtitle">Senior Cloud & DevSecOps Engineer</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:viswaroopv@hotmail.com" style="color: white;">viswaroopv@hotmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <a href="tel:2348174021" style="color: white;">(234) 817-4021</a>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <a href="#" style="color: white;">LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Highly competent and proficient Senior DevOps Engineer with a decade of experience in designing, implementing and managing Cloud Infrastructure, CI/CD Pipelines and various Automation tools. Expert in collaborating with cross functional development and operations teams to streamline workflows and enhance efficiency. Demonstrated history of optimizing systems performance and ensuring the high availability and security of applications.</p>
+        </section>
+
+        <section id="achievements">
+            <h2>Key Achievements</h2>
+            <div class="grid-container">
+                <div class="achievement-card">
+                    <div class="stat">50%</div>
+                    <p>Reduced deployment time across enterprise applications through modern DevOps practices</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="stat">40%</div>
+                    <p>Reduced cloud infrastructure costs through optimization and automation</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="stat">30%</div>
+                    <p>Improved system reliability and reduced incident response time</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="stat">$60-100K+</div>
+                    <p>Annual cost savings through infrastructure modernization initiatives</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="stat">100+</div>
+                    <p>Microservices successfully deployed and managed across cloud platforms</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="stat">99.999%</div>
+                    <p>Maintained system uptime through robust architecture and automation</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="skills">
+            <h2>Technical Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">Kubernetes</div>
+                <div class="skill-tag">AWS</div>
+                <div class="skill-tag">Azure</div>
+                <div class="skill-tag">GCP</div>
+                <div class="skill-tag">Docker</div>
+                <div class="skill-tag">Jenkins</div>
+                <div class="skill-tag">Terraform</div>
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">GitOps</div>
+                <div class="skill-tag">ArgoCD</div>
+                <div class="skill-tag">Elastic Stack</div>
+                <div class="skill-tag">CI/CD</div>
+                <div class="skill-tag">FluxCD</div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Sep 2019 - Present</div>
+                    <h3>Senior Cloud & DevSecOps Engineer - Asurion</h3>
+                    <p>Led DevOps transformation initiatives and implemented cutting-edge cloud solutions:</p>
+                    <ul>
+                        <li>Implemented GitOps deployment reducing deployment time by 50%</li>
+                        <li>Achieved 40% cost reduction through infrastructure optimization</li>
+                        <li>Migrated Elastic Stack to AWS OpenSearch saving $100,000 annually</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Apr 2017 - Sep 2019</div>
+                    <h3>Cloud & DevOps Engineer - American Express</h3>
+                    <p>Spearheaded cloud adoption and infrastructure modernization:</p>
+                    <ul>
+                        <li>Implemented hybrid cloud strategy with GCP integration</li>
+                        <li>Architected logging and monitoring solutions</li>
+                        <li>Managed multi-account AWS organization architecture</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <h3>CKA</h3>
+                    <p>Certified Kubernetes Administrator</p>
+                </div>
+                <div class="cert-item">
+                    <h3>AWS</h3>
+                    <p>Solutions Architect Professional</p>
+                </div>
+                <div class="cert-item">
+                    <h3>AWS</h3>
+                    <p>Solutions Architect Associate</p>
+                </div>
+                <div class="cert-item">
+                    <h3>CISCO</h3>
+                    <p>CCNA Routing & Switching</p>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+</body>
+</html>

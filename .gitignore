@@ -1,0 +1,6 @@
+# Ignore bundler config
+/vendor/bundle
+
+# Jekyll
+/.jekyll-cache
+/_site

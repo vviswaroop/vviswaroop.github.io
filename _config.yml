@@ -1,0 +1,12 @@
+title: "Viswaroop Vadlamudi"
+email: "viswaroopdevops@gmail.com"
+description: "Senior Cloud & DevSecOps Engineer"
+location: "Nashville, TN"
+linkedin: "https://linkedin.com/in/viswaroopvadlamudi"
+baseurl: ""
+url: "https://vviswaroop.github.io"
+theme: null
+plugins: []
+
+# Markdown
+markdown: kramdown

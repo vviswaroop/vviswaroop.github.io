@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title | default: site.title }}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  </head>
+  <body>
+    <header>
+      <div class="header-background"></div>
+      <div class="header-content">
+        <h1>{{ site.title }}</h1>
+        <p class="subtitle">{{ site.description }}</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span>📍</span>
+            <span>{{ site.location }}</span>
+          </div>
+          <div class="contact-item">
+            <span>📧</span>
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          </div>
+          <div class="contact-item">
+            <span>💼</span>
+            <a href="{{ site.linkedin }}" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#core-skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      {{ content }}
+    </main>
+  </body>
+</html>
