@@ -22,24 +22,17 @@ description: "About Viswaroop Vadlamudi — professional background"
       <p>Kubernetes Certified Administrator</p>
     </div>
     <div class="cert-item">
-      <h4>AWS</h4>
-      <p>Solutions Architect Professional</p>
-    </div>
-    <div class="cert-item">
-      <h4>AWS</h4>
-      <p>Solutions Architect Associate</p>
-    </div>
-    <div class="cert-item">
-      <h4>CCNA</h4>
-      <p>Routing &amp; Switching</p>
-    </div>
-  </div>
-</section>
+      <h1>Hi, I'm Viswaroop</h1>
 
-<section id="education">
-  <h3>Education</h3>
-  <div class="cert-grid">
-    <div class="cert-item">
+      <p class="about-bio">Software engineer and platform builder. I write about building reliable, secure, and scalable cloud platforms — focused on Kubernetes, GitOps, and developer experience. Previously I’ve worked on large distributed systems and platform initiatives across cloud providers.</p>
+
+      ## CONNECT
+
+      <p class="about-connect"><a href="https://github.com/vviswaroop" target="_blank">github.com/vviswaroop</a> &nbsp; <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank">linkedin.com/in/viswaroopvadlamudi</a> &nbsp; <a href="mailto:viswaroopdevops@gmail.com">viswaroopdevops@gmail.com</a></p>
+
+      ---
+
+      <section id="experience">
       <h4>Kent State University</h4>
       <p>M.S., Computer &amp; Information Science — 2016</p>
     </div>
