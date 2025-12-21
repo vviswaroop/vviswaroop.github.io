@@ -69,24 +69,3 @@ published: false
     </div>
 </section>
 
-<section id="certifications">
-    <h2>Certifications</h2>
-    <div class="cert-grid">
-        <div class="cert-item">
-            <h3>CKA</h3>
-            <p>Certified Kubernetes Administrator</p>
-        </div>
-        <div class="cert-item">
-            <h3>AWS</h3>
-            <p>Solutions Architect Professional</p>
-        </div>
-        <div class="cert-item">
-            <h3>AWS</h3>
-            <p>Solutions Architect Associate</p>
-        </div>
-        <div class="cert-item">
-            <h3>CISCO</h3>
-            <p>CCNA Routing & Switching</p>
-        </div>
-    </div>
-</section>
