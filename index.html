@@ -15,12 +15,12 @@ title: Home
   <div class="hero-tags" aria-hidden="true" style="margin-top:1rem">
     {%- if site.data.top_tags -%}
       {% for t in site.data.top_tags %}
-        <span class="tag">{{ t.name }}</span>
+        <a class="tag" href="/tag/{{ t.name | slugify }}/">{{ t.name }} <span class="tag-count">({{ t.count }})</span></a>
       {% endfor %}
     {%- else -%}
       {% assign top_tags = site.tags | sort | reverse | slice: 0,6 %}
       {% for tag in top_tags %}
-        <span class="tag">{{ tag | first }}</span>
+        <a class="tag" href="/tag/{{ tag | first | slugify }}/">{{ tag | first }}</a>
       {% endfor %}
     {%- endif -%}
   </div>

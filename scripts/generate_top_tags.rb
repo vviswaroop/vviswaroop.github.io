@@ -28,3 +28,29 @@ top = counts.sort_by { |_, c| -c }.first(6).map { |name, count| { 'name' => name
 FileUtils.mkdir_p('_data')
 File.write('_data/top_tags.yml', top.to_yaml)
 puts "Generated _data/top_tags.yml with #{top.length} tags"
+
+# Also generate simple per-tag pages under /tag/<slug>/ so tags are navigable.
+FileUtils.mkdir_p('tag')
+counts.keys.each do |tag|
+  slug = tag.downcase.strip.gsub(/[^a-z0-9]+/, '-')
+  filename = File.join('tag', "#{slug}.md")
+  content = <<~MD
+  ---
+  layout: default
+  title: "Tag: #{tag}"
+  permalink: /tag/#{slug}/
+  ---
+
+  <h2>Tag: #{tag}</h2>
+
+  <ul class="post-list">
+    {% for post in site.posts %}
+      {% if post.tags contains '#{tag}' %}
+        <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <span class="meta">— {{ post.date | date: "%b %d, %Y" }}</span></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  MD
+  File.write(filename, content)
+  puts "Generated tag page: #{filename}"
+end
