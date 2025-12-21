@@ -40,24 +40,7 @@ published: false
 </section>
 
 
-<section id="skills">
-    <h2>Technical Expertise</h2>
-    <div class="skills-grid">
-        <div class="skill-tag">Kubernetes</div>
-        <div class="skill-tag">AWS</div>
-        <div class="skill-tag">Azure</div>
-        <div class="skill-tag">GCP</div>
-        <div class="skill-tag">Docker</div>
-        <div class="skill-tag">Jenkins</div>
-        <div class="skill-tag">Terraform</div>
-        <div class="skill-tag">Python</div>
-        <div class="skill-tag">GitOps</div>
-        <div class="skill-tag">ArgoCD</div>
-        <div class="skill-tag">Elastic Stack</div>
-        <div class="skill-tag">CI/CD</div>
-        <div class="skill-tag">FluxCD</div>
-    </div>
-</section>
+<!-- Skills consolidated into the main `index.html` Skills section -->
 
 <section id="experience">
     <h2>Professional Experience</h2>
