@@ -1,0 +1,33 @@
+---
+layout: default
+title: Blog
+pagination: 
+  enabled: true
+  collection: posts
+  per_page: 5
+  permalink: /blog/page:num/
+---
+
+<h2>Blog</h2>
+
+{% if paginator.posts and paginator.posts.size > 0 %}
+  <ul class="post-list">
+  {% for post in paginator.posts %}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <span class="meta">— {{ post.date | date: "%b %d, %Y" }}</span>
+    </li>
+  {% endfor %}
+  </ul>
+
+  <div class="pagination">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}">Previous</a>
+    {% endif %}
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}">Next</a>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No posts yet — stay tuned.</p>
+{% endif %}

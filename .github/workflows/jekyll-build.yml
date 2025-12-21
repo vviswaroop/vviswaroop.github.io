@@ -21,3 +21,7 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Build site
         run: bundle exec jekyll build
+      - name: Run HTML Proofer
+        run: |
+          gem install html-proofer
+          htmlproofer ./_site --disable-external --allow-hash-href || true

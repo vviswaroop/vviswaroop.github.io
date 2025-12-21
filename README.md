@@ -24,3 +24,13 @@ To enable the site after the first deploy:
 1. Go to the repository Settings → Pages. Select the **gh-pages** branch as the source and save. The site should become available at the URL in `_config.yml` once the workflow completes.
 
 The repository also includes an additional workflow (`.github/workflows/jekyll-build.yml`) that runs a build check on push and PRs.
+
+Blog development:
+
+- Posts live under `_posts/` using standard Jekyll filenames (YYYY-MM-DD-title.md).
+- The blog index is at `/blog/` and uses pagination (`paginate: 5`).
+- Plugins included: `jekyll-feed`, `jekyll-sitemap`, `jekyll-seo-tag`, `jekyll-paginate`.
+
+Testing tips (CI):
+
+- The `jekyll-build` workflow runs a non-blocking HTML link check using `html-proofer`.

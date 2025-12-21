@@ -93,6 +93,37 @@ main.container {
     margin-top: 2rem;
 }
 
+/* Homepage hero */
+.hero {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.btn{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.post-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.post-list li{
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-list .meta{font-size:0.9rem;color:var(--secondary);margin-left:0.5rem}
+
 /* Skills section */
 .skills-grid {
     display: grid;
