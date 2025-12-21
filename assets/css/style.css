@@ -56,13 +56,15 @@ body {
 
 /* Header styles */
 header {
+    background: transparent;
+    padding: 1rem 0;
+}
 
-    .hero-grid{grid-template-columns:1fr;}
+.header-content { max-width: 720px; margin: 0 auto; }
 
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-    overflow: hidden;
+.site-header .site-title { font-size: 1.05rem; margin: 0; font-weight: 700 }
+.site-header .site-title a { color: var(--text); text-decoration: none }
+.site-header .subtitle { margin-top: 0.15rem; color: var(--muted); font-size: 0.95rem }
 }
 
 .header-content {
@@ -332,4 +334,4 @@ h3 {
 }
 
 /* Header links should be white */
-header a { color: white; }
+header a { color: var(--text); }
