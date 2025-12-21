@@ -69,5 +69,5 @@ description: "About Viswaroop Vadlamudi — resume & professional background"
 
 <section id="download">
   <h3>Download Resume</h3>
-  <p><a href="/assets/resume/viswaroop_resume_dec25.pdf" download class="btn">Download PDF resume</a></p>
+  <p><a href="/assets/resume/viswaroop_resume_dec25.pdf" download class="btn">Download PDF resume (redacted: phone &amp; location removed)</a></p>
 </section>
