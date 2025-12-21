@@ -38,4 +38,5 @@ jobs:
           # repository Actions permissions restrict GITHUB_TOKEN write access.
           # Create a personal access token with 'repo' scope and store it as
           # the repository secret `GH_PAGES_DEPLOY_TOKEN` (see README for steps).
-          github_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+          # Pass the secret as `personal_token` which the action expects for PATs.
+          personal_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
