@@ -5,58 +5,38 @@ title: Home
 
 <!-- Homepage: Blog index -->
 
-<section class="hero-grid">
-  <div class="hero-content">
-    <h1>Insights on Cloud, Kubernetes & Platform Engineering</h1>
-    <p class="lead">I write practical guides and postmortems on building reliable, secure, and scalable cloud platforms — focused on developer experience, GitOps, and operational excellence.</p>
-    <div class="hero-cta">
-      <a class="btn" href="/blog/">Read the Blog</a>
-      <a class="btn btn-outline" href="/about/">About</a>
-    </div>
-    <div class="hero-tags" aria-hidden="true">
-      {%- comment -%} `site.tags` entries are arrays like [name, posts]; sorting by 'last' can try to index arrays with string keys and raise a TypeError in some Jekyll/Liquid versions. Use a safe alphabetical sort instead so the build doesn't break. {%- endcomment -%}
+<section class="hero">
+  <h1>Insights on Cloud, Kubernetes & Platform Engineering</h1>
+  <p class="subtitle">Practical guides and postmortems on building reliable, secure, and scalable cloud platforms — focused on developer experience, GitOps, and operational excellence.</p>
+  <div style="margin-top:1rem;">
+    <a class="btn" href="/blog/">Read the Blog</a>
+    <a class="btn btn-outline" href="/about/">About</a>
+  </div>
+  <div class="hero-tags" aria-hidden="true" style="margin-top:1rem">
+    {%- if site.data.top_tags -%}
+      {% for t in site.data.top_tags %}
+        <span class="tag">{{ t.name }}</span>
+      {% endfor %}
+    {%- else -%}
       {% assign top_tags = site.tags | sort | reverse | slice: 0,6 %}
       {% for tag in top_tags %}
         <span class="tag">{{ tag | first }}</span>
       {% endfor %}
-    </div>
+    {%- endif -%}
   </div>
-
-  <aside class="featured">
-    {% assign featured = site.posts.first %}
-    {% if featured %}
-    <article class="featured-card">
-      <div class="featured-meta">
-        <time datetime="{{ featured.date | date_to_xmlschema }}">{{ featured.date | date: "%b %d, %Y" }}</time>
-        <span class="dot">•</span>
-        <span class="reading-time">{{ featured.content | number_of_words | divided_by:200 | ceil }} min read</span>
-      </div>
-      <h3><a href="{{ featured.url | relative_url }}">{{ featured.title }}</a></h3>
-      <p class="excerpt">{{ featured.excerpt | strip_html | truncate: 160 }}</p>
-      <p><a class="btn" href="{{ featured.url | relative_url }}">Continue reading</a></p>
-    </article>
-    {% else %}
-    <div class="featured-card empty">
-      <h3>No posts yet</h3>
-      <p>Start by creating a post in <code>_posts/</code> and push to publish.</p>
-    </div>
-    {% endif %}
-  </aside>
 </section>
 
-<section id="latest-posts">
+<section id="recent-posts">
   <h2>Recent posts</h2>
-  <div class="post-grid">
-    {% for post in site.posts offset:1 limit:6 %}
-    <article class="post-card">
-      <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
-      <div class="post-meta">{{ post.date | date: "%b %d, %Y" }} <span class="dot">•</span> {{ post.content | number_of_words | divided_by:200 | ceil }} min read</div>
-      <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 140 }}</p>
-      <p><a class="btn btn-sm" href="{{ post.url | relative_url }}">Read</a></p>
-    </article>
+  <ul class="post-list">
+    {% for post in site.posts limit:8 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="meta">— {{ post.date | date: "%b %d, %Y" }}</span>
+      </li>
     {% endfor %}
-  </div>
-  <p style="text-align:center;margin-top:1.5rem;"><a href="/blog/" class="btn">View all posts</a></p>
+  </ul>
+  <p style="text-align:center;margin-top:1rem;"><a href="/blog/" class="btn">View all posts</a></p>
 </section>
 
 <section id="certifications">

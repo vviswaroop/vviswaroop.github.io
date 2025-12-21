@@ -19,6 +19,9 @@ jobs:
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3
+      - name: Generate top tags
+        run: |
+          ruby scripts/generate_top_tags.rb
       - name: Build site
         run: bundle exec jekyll build
       - name: Run HTML Proofer
