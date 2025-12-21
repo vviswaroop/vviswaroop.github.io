@@ -31,6 +31,12 @@ Blog development:
 - The blog index is at `/blog/` and uses pagination (`paginate: 5`).
 - Plugins included: `jekyll-feed`, `jekyll-sitemap`, `jekyll-seo-tag`, `jekyll-paginate`.
 
+New features:
+
+- Topic pages: `/developer/`, `/product/`, `/infrastructure/` — lists posts filtered by tag.
+- Top tags pipeline: a small script `scripts/generate_top_tags.rb` generates `_data/top_tags.yml` (run in CI) so the homepage can display popular tags safely.
+- Homepage: redesigned to a minimal, content-first layout (compact recent-post list and CTA).
+
 Testing tips (CI):
 
 - The `jekyll-build` workflow runs a non-blocking HTML link check using `html-proofer`.
