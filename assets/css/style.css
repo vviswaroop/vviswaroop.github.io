@@ -68,13 +68,10 @@ header {
     padding: 1rem 0;
 }
 
-.header-content { max-width: 720px; margin: 0 auto; }
-
 .site-header { padding: 0.6rem 0; }
 .site-header .site-title { font-size: 1rem; margin: 0; font-weight: 700; letter-spacing: -0.01em }
 .site-header .site-title a { color: var(--text); text-decoration: none }
 .site-header .subtitle { margin-top: 0.08rem; color: var(--muted); font-size: 0.92rem; font-weight: 300 }
-}
 
 .header-content {
     max-width: 1200px;
@@ -135,11 +132,11 @@ nav a:hover {
 
 /* Main content */
 main.container {
-    max-width: 720px;
+    max-width: 1040px;
     margin: 2.25rem auto;
-    padding: 0 1rem 3rem 1rem;
+    padding: 0 1.5rem 3rem 1.5rem;
     background: var(--bg);
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 .grid-container {
@@ -158,9 +155,50 @@ main.container {
     text-align: left;
 }
 
-.hero h1{ font-size:1.5rem; font-weight:600; margin-bottom:0.25rem }
+.principal-hero {
+    background: linear-gradient(135deg, rgba(17,24,39,0.06), rgba(10,102,194,0.05));
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+}
+
+.hero h1{ font-size:2rem; line-height:1.2; font-weight:700; margin-bottom:0.35rem }
 .hero .subtitle{ font-size:0.98rem; color:var(--muted); margin-bottom:0.25rem }
 .hero-tags .tag{margin-right:0.4rem}
+.hero .lead{ font-size:1.05rem; line-height:1.7; color:var(--text); max-width: 72ch; }
+.hero-cta { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.6rem; }
+.hero-cta .btn-outline { border:1px solid rgba(10,102,194,0.12); color: var(--accent); }
+.hero-cta .btn-outline:hover { background: var(--accent); color:#fff; }
+
+.proof-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.proof-pill {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.85rem 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.pill-icon { font-size: 1.1rem; }
 
 /* About page specific */
 .about-bio{font-size:1rem;line-height:1.7;color:var(--text);max-width:50ch}
@@ -198,32 +236,27 @@ main.container {
 .post-list .meta{font-size:0.82rem;color:var(--muted);margin-left:0.5rem}
 
 .hero-tags .tag{margin-right:0.5rem}
-    .tag {
-        display: inline-block;
-        padding: 0.12rem 0.45rem;
-        border-radius: 999px;
-        margin: 0.12rem;
-        font-size: 0.84rem;
-        border: 1px solid rgba(16,24,40,0.06);
-        color: var(--muted);
-        background: transparent;
-        transition: all .12s ease;
-    }
-    .tag:hover {
-        color: var(--accent);
-        border-color: rgba(10,102,194,0.18);
-        transform: translateY(-1px);
-    }
-    .tag .tag-count {
-        color: var(--muted);
-        font-weight: 500;
-        margin-left: 0.28rem;
-        font-size: 0.82rem;
-    }
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+.tag {
+    display: inline-block;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    margin: 0.12rem;
+    font-size: 0.84rem;
+    border: 1px solid rgba(16,24,40,0.06);
+    color: var(--muted);
+    background: transparent;
+    transition: all .12s ease;
+}
+.tag:hover {
+    color: var(--accent);
+    border-color: rgba(10,102,194,0.18);
+    transform: translateY(-1px);
+}
+.tag .tag-count {
+    color: var(--muted);
+    font-weight: 500;
+    margin-left: 0.28rem;
+    font-size: 0.82rem;
 }
 
 .skill-tag {
@@ -260,6 +293,58 @@ main.container {
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+
+.systems {
+    margin-top: 2rem;
+}
+
+.system-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.system-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(16,24,40,0.04);
+}
+
+.system-card h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+.system-card p { color: #334155; }
+.system-card ul { margin: 0.75rem 0 0 1rem; color: #475569; }
+.system-card li { margin-bottom: 0.35rem; }
+.system-kicker { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; color: var(--muted); font-weight: 700; margin-bottom: 0.3rem; }
+
+.case-studies { margin-top: 2rem; }
+.case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.9rem; margin-top: 0.8rem; }
+.case-card { background: #0a66c2; color: white; border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 10px 24px rgba(10,102,194,0.18); }
+.case-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+.case-card p { color: rgba(255,255,255,0.92); margin-bottom: 0.4rem; }
+.case-card .meta { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+.cta-inline { margin-top: 0.75rem; color: var(--text); }
+.cta-inline a { color: var(--accent); font-weight: 700; }
+
+.cta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: #0f172a;
+    color: white;
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    margin-top: 2rem;
+}
+
+.cta-bar .subtitle { color: rgba(255,255,255,0.8); font-size: 0.98rem; margin: 0; }
+.cta-bar .btn { background: #fff; color: #0f172a; }
+.cta-bar .btn-outline { border:1px solid rgba(255,255,255,0.45); color: #fff; }
+.cta-bar .btn-outline:hover { background: #fff; color: #0f172a; }
+.cta-actions { display:flex; gap:0.5rem; flex-wrap:wrap; }
 
 /* Typography */
 h1 {
@@ -370,6 +455,19 @@ h3 {
 
     .grid-container {
         grid-template-columns: 1fr;
+    }
+
+    .proof-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cta-actions {
+        width: 100%;
     }
 }
 
