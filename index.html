@@ -17,7 +17,7 @@ title: Home
       {%- comment -%} `site.tags` entries are arrays like [name, posts]; sorting by 'last' can try to index arrays with string keys and raise a TypeError in some Jekyll/Liquid versions. Use a safe alphabetical sort instead so the build doesn't break. {%- endcomment -%}
       {% assign top_tags = site.tags | sort | reverse | slice: 0,6 %}
       {% for tag in top_tags %}
-        <span class="tag">{{ tag[0] }}</span>
+        <span class="tag">{{ tag | first }}</span>
       {% endfor %}
     </div>
   </div>
