@@ -13,14 +13,14 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-/* New homepage hero grid */
-.hero-grid{
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 2rem;
-  align-items: start;
-}
+    nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 1rem;
+        max-width: 640px;
+        margin: 0 auto;
+    }
 
 .hero-content h1{font-size:2.25rem;margin-bottom:0.5rem}
 .lead{color:rgba(31,41,55,0.85);margin-bottom:1rem}
@@ -55,6 +55,12 @@ body {
     color: var(--text);
     background: var(--page-bg);
 }
+/* font smoothing and default weight for a cleaner, lighter look */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+}
 
 /* Header styles */
 header {
@@ -64,9 +70,10 @@ header {
 
 .header-content { max-width: 720px; margin: 0 auto; }
 
-.site-header .site-title { font-size: 1.05rem; margin: 0; font-weight: 700 }
+.site-header { padding: 0.6rem 0; }
+.site-header .site-title { font-size: 1rem; margin: 0; font-weight: 700; letter-spacing: -0.01em }
 .site-header .site-title a { color: var(--text); text-decoration: none }
-.site-header .subtitle { margin-top: 0.15rem; color: var(--muted); font-size: 0.95rem }
+.site-header .subtitle { margin-top: 0.08rem; color: var(--muted); font-size: 0.92rem; font-weight: 300 }
 }
 
 .header-content {
@@ -151,6 +158,10 @@ main.container {
     text-align: left;
 }
 
+.hero h1{ font-size:1.5rem; font-weight:600; margin-bottom:0.25rem }
+.hero .subtitle{ font-size:0.98rem; color:var(--muted); margin-bottom:0.25rem }
+.hero-tags .tag{margin-right:0.4rem}
+
 .btn{
     display: inline-block;
     padding: 0.45rem 0.9rem;
@@ -170,22 +181,40 @@ main.container {
 }
 
 .post-list li{
-    padding: 0.65rem 0;
-    border-bottom: 1px solid var(--border);
+    padding: 0.45rem 0;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
 
-.post-list a{ color: var(--text); font-weight: 600; text-decoration: none }
-.post-list a:hover{ color: var(--accent); }
+.post-list a{ color: var(--text); font-weight: 600; text-decoration: none; font-size:1rem }
+.post-list a:hover{ color: var(--accent); text-decoration: none; }
 
-.post-list .meta{font-size:0.88rem;color:var(--muted);margin-left:0.5rem}
+.post-list .meta{font-size:0.82rem;color:var(--muted);margin-left:0.5rem}
 
 .hero-tags .tag{margin-right:0.5rem}
-
-/* Skills section */
-.skills-grid {
+    .tag {
+        display: inline-block;
+        padding: 0.12rem 0.45rem;
+        border-radius: 999px;
+        margin: 0.12rem;
+        font-size: 0.84rem;
+        border: 1px solid rgba(16,24,40,0.06);
+        color: var(--muted);
+        background: transparent;
+        transition: all .12s ease;
+    }
+    .tag:hover {
+        color: var(--accent);
+        border-color: rgba(10,102,194,0.18);
+        transform: translateY(-1px);
+    }
+    .tag .tag-count {
+        color: var(--muted);
+        font-weight: 500;
+        margin-left: 0.28rem;
+        font-size: 0.82rem;
+    }
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1rem;
