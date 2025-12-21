@@ -4,14 +4,37 @@ title: About
 description: "About Viswaroop Vadlamudi — professional background"
 ---
 
-<h2>About</h2>
+<header class="about-hero">
+  <h1>Hi — I’m Viswaroop</h1>
+  <p class="about-bio">I build reliable, secure, and scalable cloud platforms. I write about Kubernetes, GitOps, platform engineering, and developer experience, and I enjoy making complex distributed systems easier to operate.</p>
+
+  <p class="about-connect">
+    <a class="btn btn--ghost" href="https://github.com/vviswaroop" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn--ghost" href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn--ghost" href="mailto:viswaroopdevops@gmail.com">Email</a>
+  </p>
+</header>
+
 <section id="summary">
-  <h3>Summary</h3>
-  <p>Senior Cloud & DevSecOps Engineer with 10+ years of experience designing and leading enterprise-scale Kubernetes, identity, and cloud platforms across AWS and GCP. I write about Kubernetes, GitOps, platform engineering, security, and operationalizing cloud-native systems. For contact, please use the email or LinkedIn links in the header.</p>
+  <h2>Summary</h2>
+  <p>Senior Cloud & DevSecOps Engineer with 10+ years of experience designing and leading enterprise-scale Kubernetes, identity, and cloud platforms across AWS and GCP. I write about operationalizing cloud-native systems and improving developer experience. For contact, please use the links above.</p>
+</section>
+
+<section id="skills">
+  <h2>Core skills</h2>
+  <ul class="skill-list">
+    <li>AWS</li>
+    <li>GCP</li>
+    <li>Kubernetes</li>
+    <li>GitOps (ArgoCD, Flux)</li>
+    <li>Terraform</li>
+    <li>DevSecOps</li>
+    <li>Observability</li>
+  </ul>
 </section>
 
 <section id="certifications">
-  <h3>Certifications</h3>
+  <h2>Certifications & education</h2>
   <div class="cert-grid">
     <div class="cert-item">
       <h4>KCNA</h4>
@@ -22,17 +45,6 @@ description: "About Viswaroop Vadlamudi — professional background"
       <p>Kubernetes Certified Administrator</p>
     </div>
     <div class="cert-item">
-      <h1>Hi, I'm Viswaroop</h1>
-
-      <p class="about-bio">Software engineer and platform builder. I write about building reliable, secure, and scalable cloud platforms — focused on Kubernetes, GitOps, and developer experience. Previously I’ve worked on large distributed systems and platform initiatives across cloud providers.</p>
-
-      ## CONNECT
-
-      <p class="about-connect"><a href="https://github.com/vviswaroop" target="_blank">github.com/vviswaroop</a> &nbsp; <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank">linkedin.com/in/viswaroopvadlamudi</a> &nbsp; <a href="mailto:viswaroopdevops@gmail.com">viswaroopdevops@gmail.com</a></p>
-
-      ---
-
-      <section id="experience">
       <h4>Kent State University</h4>
       <p>M.S., Computer &amp; Information Science — 2016</p>
     </div>
@@ -43,15 +55,4 @@ description: "About Viswaroop Vadlamudi — professional background"
   </div>
 </section>
 
-<section id="skills">
-  <h3>Core Skills</h3>
-  <ul>
-    <li>AWS, GCP, Microsoft Azure</li>
-    <li>Kubernetes, GitOps (ArgoCD, Flux), Helm, Kustomize</li>
-    <li>Terraform, CloudFormation, AWS CDK</li>
-    <li>DevSecOps, OAuth2/OIDC, ORY (Hydra, Kratos, Keto)</li>
-    <li>OpenSearch/Elastic, Dynatrace, NewRelic</li>
-  </ul>
-</section>
-
-<section id="experience">
+<!-- experience section intentionally omitted; add timeline here later if needed -->

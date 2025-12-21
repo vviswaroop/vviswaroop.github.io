@@ -42,8 +42,12 @@
       <div class="footer-inner">
         <p>© {{ site.time | date: "%Y" }} <a href="/">{{ site.title }}</a></p>
         <p class="social-links">
-          {% if site.github %}<a href="{{ site.github }}" target="_blank">github</a>{% endif %}
-          {% if site.linkedin %} &nbsp; <a href="{{ site.linkedin }}" target="_blank">linkedin</a>{% endif %}
+          {% if site.github and site.github.owner_url %}
+            <a href="{{ site.github.owner_url }}" target="_blank" rel="noopener">github</a>
+          {% endif %}
+          {% if site.linkedin %}
+            &nbsp; <a href="{{ site.linkedin }}" target="_blank" rel="noopener">linkedin</a>
+          {% endif %}
         </p>
       </div>
     </footer>
