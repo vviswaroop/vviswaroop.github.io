@@ -1,0 +1,14 @@
+{% if site.comments.provider == "utterances" and site.comments.repo %}
+  <section id="comments" class="post-comments">
+    <h2>Comments</h2>
+    <script src="https://utteranc.es/client.js"
+            repo="{{ site.comments.repo }}"
+            issue-term="{{ site.comments.issue_term | default: 'pathname' }}"
+            label="{{ site.comments.label | default: 'comments' }}"
+            theme="{{ site.comments.theme | default: 'github-light' }}"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript><p>Comments are powered by GitHub issues. Enable JavaScript to view or add a comment.</p></noscript>
+  </section>
+{% endif %}

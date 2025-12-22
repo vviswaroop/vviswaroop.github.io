@@ -14,6 +14,10 @@ layout: default
     {{ content }}
   </div>
 
+  {% unless page.comments == false %}
+    {% include comments.html %}
+  {% endunless %}
+
   <footer class="post-footer">
     <p class="post-backlink"><a href="{{ '/blog/' | relative_url }}">&larr; Back to posts</a></p>
     <nav class="post-nav">

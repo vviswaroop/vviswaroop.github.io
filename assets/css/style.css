@@ -465,6 +465,9 @@ h3 {
 .site-footer a{ color: var(--muted); text-decoration: none }
 .site-footer a:hover{ color: var(--accent) }
 
+.post-comments { margin-top: 2rem; }
+.post-comments h2 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+
 /* Responsive design */
 @media (max-width: 768px) {
     header {

@@ -29,3 +29,11 @@ defaults:
 
 # Markdown
 markdown: kramdown
+
+# Comments (GitHub-powered via Utterances)
+comments:
+  provider: "utterances"
+  repo: "vviswaroop/vviswaroop.github.io"
+  issue_term: "pathname"
+  label: "comments"
+  theme: "github-light"
