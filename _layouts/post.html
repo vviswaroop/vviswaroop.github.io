@@ -3,6 +3,8 @@ layout: default
 ---
 
 <article class="post">
+  <p class="post-backlink"><a href="{{ '/blog/' | relative_url }}">&larr; Back to posts</a></p>
+
   <header>
     <h1>{{ page.title }}</h1>
     <p class="post-meta">{{ page.date | date: "%b %d, %Y" }} &middot; {{ page.author }} {% if page.categories %} &middot; {{ page.categories | join: ", " }}{% endif %} {% if page.reading_time %}&middot; {{ page.reading_time }} min read{% endif %}</p>
@@ -11,5 +13,17 @@ layout: default
   <div class="post-content">
     {{ content }}
   </div>
+
+  <footer class="post-footer">
+    <p class="post-backlink"><a href="{{ '/blog/' | relative_url }}">&larr; Back to posts</a></p>
+    <nav class="post-nav">
+      {% if page.previous %}
+        <a class="post-prev" href="{{ page.previous.url | relative_url }}">&larr; {{ page.previous.title }}</a>
+      {% endif %}
+      {% if page.next %}
+        <a class="post-next" href="{{ page.next.url | relative_url }}">{{ page.next.title }} &rarr;</a>
+      {% endif %}
+    </nav>
+  </footer>
 
 </article>
