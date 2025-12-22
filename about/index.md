@@ -45,13 +45,32 @@ description: "About Viswaroop Vadlamudi — professional background"
       <p>Kubernetes Certified Administrator</p>
     </div>
     <div class="cert-item">
+      <h4>AWS Certified Solutions Architect — Professional</h4>
+      <p>Advanced cloud architecture and design on AWS</p>
+    </div>
+    <div class="cert-item">
+      <h4>AWS Certified Solutions Architect — Associate</h4>
+      <p>Core AWS architecture and services</p>
+    </div>
+    <div class="cert-item">
+      <h4>CCNA Routing &amp; Switching</h4>
+      <p>Foundations of networking and routing</p>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <h2>Education</h2>
+  <div class="cert-grid">
+    <div class="cert-item">
       <h4>Kent State University</h4>
-      <p>M.S., Computer &amp; Information Science — 2016</p>
+      <p>M.S., Computer &amp; Information Science</p>
     </div>
     <div class="cert-item">
       <h4>Jawaharlal Nehru Technological University</h4>
-      <p>B.Tech., ECE — 2014</p>
+      <p>B.Tech., ECE</p>
     </div>
+  </div>
   </div>
 </section>
 
