@@ -3,8 +3,8 @@ layout: post
 title: "Identity Platforms Fail at the Frontend Boundary (Part 1: The Boundary Problem)"
 date: 2025-12-21 09:00:00 -0500
 description: "Why identity platforms often break at the boundary with frontend applications — and what platform teams must own."
-tags: [identity, oauth, oidc, frontend, platform, security, platform-engineering]
-categories: [platform, identity]
+tags: [identity, oauth, oidc, frontend, platform, security, platform-engineering, infrastructure]
+categories: [infrastructure, platform, identity]
 excerpt: "Most identity platforms don't fail in the backend — they fail at the frontend boundary. Platform teams must own the browser-facing contracts: sessions, redirects, refresh semantics, and failure handling."
 image: /assets/images/og/identity-boundary-1.png
 author: "Viswaroop Vadlamudi"
