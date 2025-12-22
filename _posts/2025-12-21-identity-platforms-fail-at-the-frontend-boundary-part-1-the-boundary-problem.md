@@ -13,7 +13,7 @@ reading_time: 6
 
 > **TL;DR:** Identity systems usually don't fail at the database or token store — they fail at the browser-facing boundary between platform and apps. Document the contracts, provide primitives, and make error handling explicit.
 
-I learned this while building an identity platform: the backend was solid, the flows passed tests, yet real users saw inconsistent behavior across applications. The difference always came back to quirks at the frontend boundary — browser cookies, redirect order, or refresh timing.
+<p class="lead">I learned this while building an identity platform: the backend was correct, but users still hit inconsistent authentication behavior. The root cause? Small, browser-facing details at the platform–app boundary — cookie scope, redirect order, refresh timing, and how failure is surfaced to users.</p>
 
 This post is Part 1: the problem. Part 2 will cover ownership, practical patterns, and how open-source identity platforms change the calculus.
 
@@ -33,6 +33,8 @@ From a frontend lens, identity is UX: redirects, cookies and storage, silent ref
 
 The gap between these models is where bugs hide: architecture diagrams rarely show `SameSite=None` or the assumption that `refresh_token` will always succeed.
 
+<p class="pull-quote">If the boundary isn't explicit, every app will invent its own behavior — and that's how distributed chaos starts.</p>
+
 ## The boundary problems that matter
 
 Here are the common contract mistakes that become platform-wide failure modes:
@@ -44,6 +46,10 @@ Here are the common contract mistakes that become platform-wide failure modes:
 - Storage choices: cookies vs localStorage vs in-memory
 
 Misconfiguration here breaks refresh and single-sign-on flows across apps and domains.
+
+```http
+Set-Cookie: session=abc123; Domain=.example.com; Path=/; Secure; SameSite=None; HttpOnly
+```
 
 ### Redirects & flow ownership
 
