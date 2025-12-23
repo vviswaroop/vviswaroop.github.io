@@ -13,12 +13,12 @@ title: Home
     <a class="btn btn-outline" href="/blog/">Latest writing</a>
   </div>
   <div class="proof-bar">
-    <div class="proof-pill"><span class="pill-icon">🧩</span>Identity Platform — ORY (Hydra/Kratos), OAuth2, multi-tenant auth</div>
     <div class="proof-pill"><span class="pill-icon">☸️</span>Cloud Platforms — AWS EKS, GKE, multi-region footprints</div>
     <div class="proof-pill"><span class="pill-icon">🔐</span>Security by Design — IAM boundaries, secrets, TLS, zero-trust patterns</div>
     <div class="proof-pill"><span class="pill-icon">🚀</span>GitOps at Scale — ArgoCD, Kustomize, Helm standardization</div>
     <div class="proof-pill"><span class="pill-icon">📊</span>Operations — SLOs, incident learning, guardrails over gates</div>
     <div class="proof-pill"><span class="pill-icon">🔎</span>Observability — OpenSearch, Elastic, Dynatrace, New Relic: metrics, traces & actionable alerts</div>
+    <div class="proof-pill"><span class="pill-icon">🧩</span>Identity Platform — ORY (Hydra/Kratos), OAuth2, multi-tenant auth</div>
   </div>
 </section>
 
@@ -35,16 +35,6 @@ title: Home
 <section id="systems" class="systems">
   <h2>Systems I lead</h2>
   <div class="system-grid">
-    <div class="system-card">
-      <p class="system-kicker">Identity & tenancy</p>
-      <h3>Replacing AWS Cognito with open-source IAM</h3>
-      <p>ORY Hydra/Kratos/Keto, token flows tuned for tenant isolation, auditable governance, and predictable onboarding for every new app.</p>
-      <ul>
-        <li>Auth boundaries that survive org growth and audits</li>
-        <li>Revocation, rotation, and SSO flows modeled up front</li>
-        <li>Cost/lock-in tradeoffs made explicit for stakeholders</li>
-      </ul>
-    </div>
     <div class="system-card">
       <p class="system-kicker">Platform engineering</p>
       <h3>GitOps-first multi-cloud platform</h3>
@@ -65,17 +55,22 @@ title: Home
         <li>Cost/reliability tradeoffs documented with decision records</li>
       </ul>
     </div>
+    <div class="system-card">
+      <p class="system-kicker">Identity & tenancy</p>
+      <h3>Replacing AWS Cognito with open-source IAM</h3>
+      <p>ORY Hydra/Kratos/Keto, token flows tuned for tenant isolation, auditable governance, and predictable onboarding for every new app.</p>
+      <ul>
+        <li>Auth boundaries that survive org growth and audits</li>
+        <li>Revocation, rotation, and SSO flows modeled up front</li>
+        <li>Cost/lock-in tradeoffs made explicit for stakeholders</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <section id="case-studies" class="case-studies">
   <h2>Case studies I’m writing up</h2>
   <div class="case-grid">
-    <div class="case-card">
-      <h3>Replacing Cognito with ORY</h3>
-      <p>Context, constraints, and why open-source IAM beat managed services for multi-tenant growth.</p>
-      <p class="meta">Highlights: token flows, tenant isolation, migration playbook.</p>
-    </div>
     <div class="case-card">
       <h3>GitOps repo design beyond 5 teams</h3>
       <p>ArgoCD app-of-apps vs. tenant-per-repo, promotion lanes, and minimizing blast radius.</p>
@@ -85,6 +80,11 @@ title: Home
       <h3>EKS/GKE platform hardening</h3>
       <p>Golden path for networking, secrets, TLS, and SSO across clouds—without slowing delivery.</p>
       <p class="meta">Highlights: policy-as-code, SLOs, incident learnings.</p>
+    </div>
+    <div class="case-card">
+      <h3>Replacing Cognito with ORY</h3>
+      <p>Context, constraints, and why open-source IAM beat managed services for multi-tenant growth.</p>
+      <p class="meta">Highlights: token flows, tenant isolation, migration playbook.</p>
     </div>
   </div>
   <p class="cta-inline">Want the deep dives? <a href="mailto:{{ site.email }}">Ask for the drafts</a> or check back soon.</p>
