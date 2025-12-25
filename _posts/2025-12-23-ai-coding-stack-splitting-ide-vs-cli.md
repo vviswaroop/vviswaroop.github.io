@@ -79,4 +79,4 @@ Choose based on how you actually operate:
 - If you need guardrails, onboarding speed, and UI-driven refactors: lean IDE-native.
 - If you need reproducibility, multi-repo reach, and incident-ready transcripts: lean CLI-first.
 
-The “best” stack is the one that matches your operational reality, not the demo. Tag this under developer because the real work is aligning tools with how engineers build, debug, and recover in production.
+The “best” stack is the one that matches your operational reality, not the demo. Tagging this under developer because the real work is aligning tools with how engineers build, debug, and recover in production.
