@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The AI Coding Stack Is Splitting: IDE-Native vs CLI-First</title>
+    <meta name="description" content="Why teams are choosing between IDE-native AI and agentic, CLI-first workflows—and how to pick for your environment.">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The AI Coding Stack Is Splitting: IDE-Native vs CLI-First | Viswaroop Vadlamudi</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="The AI Coding Stack Is Splitting: IDE-Native vs CLI-First" />
+<meta name="author" content="Viswaroop Vadlamudi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Why teams are choosing between IDE-native AI and agentic, CLI-first workflows—and how to pick for your environment." />
+<meta property="og:description" content="Why teams are choosing between IDE-native AI and agentic, CLI-first workflows—and how to pick for your environment." />
+<link rel="canonical" href="https://vviswaroop.github.io/2025/12/23/ai-coding-stack-splitting-ide-vs-cli/" />
+<meta property="og:url" content="https://vviswaroop.github.io/2025/12/23/ai-coding-stack-splitting-ide-vs-cli/" />
+<meta property="og:site_name" content="Viswaroop Vadlamudi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-23T14:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The AI Coding Stack Is Splitting: IDE-Native vs CLI-First" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Viswaroop Vadlamudi"},"dateModified":"2025-12-23T14:00:00+00:00","datePublished":"2025-12-23T14:00:00+00:00","description":"Why teams are choosing between IDE-native AI and agentic, CLI-first workflows—and how to pick for your environment.","headline":"The AI Coding Stack Is Splitting: IDE-Native vs CLI-First","mainEntityOfPage":{"@type":"WebPage","@id":"https://vviswaroop.github.io/2025/12/23/ai-coding-stack-splitting-ide-vs-cli/"},"url":"https://vviswaroop.github.io/2025/12/23/ai-coding-stack-splitting-ide-vs-cli/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
+    <header class="site-header">
+      <div class="header-content">
+        <div class="brand">
+          <h1 class="site-title"><a href="/">Viswaroop Vadlamudi</a></h1>
+          <p class="subtitle">Senior Cloud & DevSecOps Engineer</p>
+        </div>
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/developer/">Developer</a></li>
+        <li><a href="/product/">Product</a></li>
+        <li><a href="/infrastructure/">Infrastructure</a></li>
+        <li><a href="/about/">About</a></li>
+      </ul>
+    </nav>
+
+    <main id="main-content" class="container">
+      <article class="post">
+  <p class="post-backlink"><a href="/blog/">&larr; Back to posts</a></p>
+
+  <header>
+    <h1>The AI Coding Stack Is Splitting: IDE-Native vs CLI-First</h1>
+    <p class="post-meta">Dec 23, 2025 &middot; Viswaroop Vadlamudi  &middot; developer &middot; 7 min read</p>
+  </header>
+
+  
+
+  <div class="post-content">
+    <blockquote>
+  <p><strong>TL;DR:</strong> The AI coding stack is diverging into IDE-native assistants and agentic, CLI-first workflows. Pick based on repo topology, governance needs, and how your team debugs production—not on feature lists.</p>
+</blockquote>
+
+<p class="lead">The AI coding stack is splitting into two camps: IDE-native assistants and agentic, CLI-first workflows. Both are powerful, but they optimize for different realities: repo layout, governance, and how your team debugs production under pressure.</p>
+
+<h2 id="two-operating-models-not-just-two-tools">Two operating models, not just two tools</h2>
+
+<ul>
+  <li><strong>IDE-native:</strong> Assistants embedded in editors, tight with syntax trees, refactors, and inline previews. Great for single-repo focus and rapid edits.</li>
+  <li><strong>CLI-first / agentic:</strong> Shell-first workflows where you drive with commands, scripts, and reproducible steps; the “agent” works like a teammate in a terminal.</li>
+</ul>
+
+<p>This isn’t about features. It’s about which failure modes you want to optimize for.</p>
+
+<h2 id="where-ide-native-shines">Where IDE-native shines</h2>
+
+<ul>
+  <li><strong>Contextual refactors:</strong> AST-aware edits, rename safety, and quick visual diffs.</li>
+  <li><strong>Inline iteration speed:</strong> Small feedback loops, especially for frontend and API plumbing.</li>
+  <li><strong>Onboarding acceleration:</strong> New engineers follow the IDE rails instead of learning bespoke scripts.</li>
+</ul>
+
+<p>Tradeoffs:</p>
+<ul>
+  <li>Heavier editor dependency; harder to reproduce steps headless.</li>
+  <li>Secrets and corp policies need careful guardrails (what context is sent?).</li>
+  <li>Multi-repo work (infra + app + platform) can feel constrained.</li>
+</ul>
+
+<h2 id="where-cli-first--agentic-wins">Where CLI-first / agentic wins</h2>
+
+<ul>
+  <li><strong>Reproducibility:</strong> Every step is a command you can re-run in CI or during incidents.</li>
+  <li><strong>Multi-repo reality:</strong> Platform + app + infra changes without fighting IDE project boundaries.</li>
+  <li><strong>Headless / remote-friendly:</strong> Works over SSH, tmux, containers, and air-gapped boxes.</li>
+</ul>
+
+<p>Tradeoffs:</p>
+<ul>
+  <li>Steeper learning curve for newcomers; less “guardrail by default.”</li>
+  <li>Discoverability is weaker without good prompts, scripts, and docs.</li>
+  <li>Can drift without a standard command set (aliases, scripts, make targets).</li>
+</ul>
+
+<h2 id="how-to-choose-for-your-org">How to choose for your org</h2>
+
+<ul>
+  <li><strong>Repo topology:</strong> Monorepo with tight language servers? IDE-native gains. Polyrepo and infra-heavy? CLI-first reduces friction.</li>
+  <li><strong>Governance &amp; secrets:</strong> If policy requires strict context control, favor CLI-first with explicit command whitelists; or use IDE-native with strict redaction rules.</li>
+  <li><strong>Incident posture:</strong> Need fast shared visibility and repeatable fixes? CLI-first transcripts beat “I clicked here” descriptions.</li>
+  <li><strong>Team maturity:</strong> Newer teams may ship faster with IDE rails; seasoned platform teams benefit from scripted, repeatable flows.</li>
+  <li><strong>Environment constraints:</strong> Remote, jump-host, or containerized dev stacks lean CLI-first; laptop-native workflows can stay IDE-heavy.</li>
+</ul>
+
+<h2 id="my-practical-split">My practical split</h2>
+
+<ul>
+  <li><strong>Day-to-day feature work:</strong> IDE-native for local refactors, tests, and quick previews.</li>
+  <li><strong>Platform and infra changes:</strong> CLI-first scripts with make targets and recorded commands.</li>
+  <li><strong>Incidents:</strong> Start in the CLI for auditability; use IDE-native only for scoped code edits.</li>
+  <li><strong>Reviews:</strong> Prefer diffs produced by commands; avoid opaque editor-only operations.</li>
+</ul>
+
+<h2 id="guardrails-to-make-either-safe">Guardrails to make either safe</h2>
+
+<ul>
+  <li><strong>Standard entrypoints:</strong> <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">just</code>, or scripts so agents/assistants use known commands.</li>
+  <li><strong>Context budgets:</strong> Keep prompts and contexts lean; avoid dumping secrets or entire repos.</li>
+  <li><strong>Telemetry &amp; logging:</strong> For agentic CLIs, log commands executed; for IDE-native, keep diff previews and PR templates.</li>
+  <li><strong>RBAC-aware flows:</strong> Don’t bypass approval gates; ensure generated changes still pass policy-as-code checks.</li>
+</ul>
+
+<h2 id="if-you-want-both">If you want both</h2>
+
+<p>Most mature teams run a hybrid:</p>
+<ul>
+  <li>IDE-native for local iteration velocity.</li>
+  <li>CLI-first for reproducible automation, multi-repo, and incident handling.</li>
+</ul>
+
+<p>The key is a <strong>shared contract</strong>: documented commands, known prompts, and review rules that keep AI help observable and safe.</p>
+
+<h2 id="bottom-line">Bottom line</h2>
+
+<p>Choose based on how you actually operate:</p>
+<ul>
+  <li>If you need guardrails, onboarding speed, and UI-driven refactors: lean IDE-native.</li>
+  <li>If you need reproducibility, multi-repo reach, and incident-ready transcripts: lean CLI-first.</li>
+</ul>
+
+<p>The “best” stack is the one that matches your operational reality, not the demo. Tagging this under developer because the real work is aligning tools with how engineers build, debug, and recover in production.</p>
+
+  </div>
+
+  
+    
+  <section id="comments" class="post-comments">
+    <h2>Comments</h2>
+    <script src="https://utteranc.es/client.js"
+            repo="vviswaroop/vviswaroop.github.io"
+            issue-term="pathname"
+            label="comments"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript><p>Comments are powered by GitHub issues. Enable JavaScript to view or add a comment.</p></noscript>
+  </section>
+
+
+  
+
+  <footer class="post-footer">
+    <p class="post-backlink"><a href="/blog/">&larr; Back to posts</a></p>
+    <nav class="post-nav">
+      
+        <a class="post-prev" href="/2025/12/22/argo-cd-vs-flux-in-production/">&larr; Argo CD vs Flux in Production: Insights from Running Both at Scale</a>
+      
+      
+        <a class="post-next" href="/2025/12/26/identity-platforms-fail-at-the-frontend-boundary-part-2-when-identity-becomes-a-platform-problem/">Identity Platforms Fail at the Frontend Boundary (Part 2: When Identity Becomes a Platform Problem) &rarr;</a>
+      
+    </nav>
+  </footer>
+
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>© 2026 <a href="/">Viswaroop Vadlamudi</a></p>
+        <p class="social-links">
+          
+            <a href="https://github.com/vviswaroop" target="_blank" rel="noopener">github</a>
+          
+          
+            &nbsp; <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener">linkedin</a>
+          
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

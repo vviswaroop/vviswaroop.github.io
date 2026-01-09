@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Argo CD vs Flux in Production: Insights from Running Both at Scale</title>
+    <meta name="description" content="Hard-earned lessons from operating Argo CD and Flux across multi-cluster, multi-team, security-sensitive environments.">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Argo CD vs Flux in Production: Insights from Running Both at Scale | Viswaroop Vadlamudi</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Argo CD vs Flux in Production: Insights from Running Both at Scale" />
+<meta name="author" content="Viswaroop Vadlamudi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hard-earned lessons from operating Argo CD and Flux across multi-cluster, multi-team, security-sensitive environments." />
+<meta property="og:description" content="Hard-earned lessons from operating Argo CD and Flux across multi-cluster, multi-team, security-sensitive environments." />
+<link rel="canonical" href="https://vviswaroop.github.io/2025/12/22/argo-cd-vs-flux-in-production/" />
+<meta property="og:url" content="https://vviswaroop.github.io/2025/12/22/argo-cd-vs-flux-in-production/" />
+<meta property="og:site_name" content="Viswaroop Vadlamudi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-22T14:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Argo CD vs Flux in Production: Insights from Running Both at Scale" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Viswaroop Vadlamudi"},"dateModified":"2025-12-22T14:00:00+00:00","datePublished":"2025-12-22T14:00:00+00:00","description":"Hard-earned lessons from operating Argo CD and Flux across multi-cluster, multi-team, security-sensitive environments.","headline":"Argo CD vs Flux in Production: Insights from Running Both at Scale","mainEntityOfPage":{"@type":"WebPage","@id":"https://vviswaroop.github.io/2025/12/22/argo-cd-vs-flux-in-production/"},"url":"https://vviswaroop.github.io/2025/12/22/argo-cd-vs-flux-in-production/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
+    <header class="site-header">
+      <div class="header-content">
+        <div class="brand">
+          <h1 class="site-title"><a href="/">Viswaroop Vadlamudi</a></h1>
+          <p class="subtitle">Senior Cloud & DevSecOps Engineer</p>
+        </div>
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/developer/">Developer</a></li>
+        <li><a href="/product/">Product</a></li>
+        <li><a href="/infrastructure/">Infrastructure</a></li>
+        <li><a href="/about/">About</a></li>
+      </ul>
+    </nav>
+
+    <main id="main-content" class="container">
+      <article class="post">
+  <p class="post-backlink"><a href="/blog/">&larr; Back to posts</a></p>
+
+  <header>
+    <h1>Argo CD vs Flux in Production: Insights from Running Both at Scale</h1>
+    <p class="post-meta">Dec 22, 2025 &middot; Viswaroop Vadlamudi  &middot; infrastructure, platform, gitops &middot; 8 min read</p>
+  </header>
+
+  
+
+  <div class="post-content">
+    <blockquote>
+  <p>GitOps tools rarely fail on features; they fail when their operating model collides with how teams actually run production.</p>
+</blockquote>
+
+<p class="lead">GitOps looks simple on paper: declare state in Git, let controllers reconcile it. In production, that simplicity disappears fast.</p>
+
+<p>Over the last few years, I’ve run both Argo CD and Flux in real production environments — multi-cluster, multi-team, security-sensitive setups where outages are visible and mistakes are expensive.</p>
+
+<p>This is not a feature comparison. It’s the lessons that only appear on Day-30, Day-90, and during real incidents.</p>
+
+<h2 id="gitops-tools-dont-fail--operating-models-do">GitOps tools don’t fail — operating models do</h2>
+
+<p>The wrong question: “Which GitOps tool is better?”<br />
+The right question: “Which failure modes does this tool optimize for?”</p>
+
+<p>Both Argo CD and Flux implement GitOps correctly. They just assume very different things about people, teams, and production reality.</p>
+
+<h2 id="the-architectural-difference-that-matters">The architectural difference that matters</h2>
+
+<h3 id="argo-cd-centralized-control-plane">Argo CD: Centralized control plane</h3>
+<ul>
+  <li>Central reconciliation brain; “applications” are first-class.</li>
+  <li>Single place to debug drift and reason about blast radius.</li>
+  <li>Clear ownership boundary: who deploys, who observes.</li>
+</ul>
+
+<p>In incidents, this isn’t about a pretty UI — it’s about fast operational clarity.</p>
+
+<h3 id="flux-distributed-controller-mesh">Flux: Distributed controller mesh</h3>
+<ul>
+  <li>Each cluster reconciles itself; Git is the primary interface.</li>
+  <li>High autonomy, fewer central bottlenecks, great for “Git-only” cultures.</li>
+  <li>Debugging spans Git, CRDs, and controller logs; no single “control room.”</li>
+</ul>
+
+<p>Ownership must be explicit or chaos creeps in quietly.</p>
+
+<h2 id="day-2-operations-what-happens-at-2-am">Day-2 operations: What happens at 2 AM</h2>
+
+<h3 id="argo-cd-in-incidents">Argo CD in incidents</h3>
+<ul>
+  <li>Visual diffs show exactly what changed.</li>
+  <li>Health rolls up Helm, Kustomize, and raw manifests.</li>
+  <li>Read-only access lets SRE/security leads observe safely.</li>
+</ul>
+
+<p>Result: faster shared understanding, shorter MTTR.</p>
+
+<h3 id="flux-in-incidents">Flux in incidents</h3>
+<ul>
+  <li>Works great when the team is fluent in Git history, Kustomization status, source/helm-controller logs, and reconciliation timing.</li>
+  <li>When conventions slip, incidents become slow and fragmented.</li>
+</ul>
+
+<h2 id="scaling-teams-vs-scaling-clusters">Scaling teams vs scaling clusters</h2>
+
+<h3 id="argo-cd-scales-by-abstraction">Argo CD scales by abstraction</h3>
+<ul>
+  <li>Platform teams can enforce contracts; app teams consume; security can audit.</li>
+  <li>Best when clusters are shared or maturity levels vary.</li>
+  <li>Lets you say: “This is the contract. You ship through this boundary.”</li>
+</ul>
+
+<h3 id="flux-scales-by-convention">Flux scales by convention</h3>
+<ul>
+  <li>Thrives when Git discipline is non-negotiable and teams think declaratively.</li>
+  <li>No safety net unless you build it yourself. Deliberate design, not a flaw.</li>
+</ul>
+
+<h2 id="governance-rbac-and-blast-radius">Governance, RBAC, and blast radius</h2>
+
+<h3 id="argo-cd-governance-reality">Argo CD governance reality</h3>
+<ul>
+  <li>App-level RBAC; read-only visibility; deployer vs approver separation.</li>
+  <li>Simplifies audits and reduces privilege creep.</li>
+</ul>
+
+<h3 id="flux-governance-reality">Flux governance reality</h3>
+<ul>
+  <li>Lives in Git permissions, repo structure, branch protection.</li>
+  <li>Strong when intentional; brittle when discipline slips.</li>
+</ul>
+
+<h2 id="helm-kustomize-and-drift-in-the-real-world">Helm, Kustomize, and drift in the real world</h2>
+<ul>
+  <li>Argo CD makes drift visible and explicit — forgiving of human mistakes.</li>
+  <li>Flux assumes drift is unacceptable — unforgiving by design.</li>
+</ul>
+
+<p>Neither is “better.” They assume different behaviors from the org.</p>
+
+<h2 id="what-id-choose--based-on-experience">What I’d choose — based on experience</h2>
+
+<p>Use <strong>Argo CD</strong> when:</p>
+<ul>
+  <li>You run shared clusters.</li>
+  <li>Many app teams depend on the platform.</li>
+  <li>Visibility, audits, and fast incident response matter.</li>
+  <li>You’re building a platform boundary, not just shipping YAML.</li>
+</ul>
+
+<p>Use <strong>Flux</strong> when:</p>
+<ul>
+  <li>Teams are highly autonomous and Git discipline is strong.</li>
+  <li>You want tooling that fades into the background.</li>
+  <li>Automation matters more than presentation.</li>
+</ul>
+
+<h2 id="what-mature-platforms-actually-do">What mature platforms actually do</h2>
+<ul>
+  <li>Flux for platform and cluster bootstrapping.</li>
+  <li>Argo CD for application delivery and visibility.</li>
+</ul>
+
+<p>This balances autonomy, governance, and operational sanity.</p>
+
+<h2 id="final-thought">Final thought</h2>
+
+<p>GitOps tools don’t fail because they lack features. They fail when their operating model doesn’t match how your organization really works. If you’re deciding between them, don’t ask which tool is better. Ask: “How do we operate when production is on fire?” That answer usually makes the choice obvious.</p>
+
+  </div>
+
+  
+    
+  <section id="comments" class="post-comments">
+    <h2>Comments</h2>
+    <script src="https://utteranc.es/client.js"
+            repo="vviswaroop/vviswaroop.github.io"
+            issue-term="pathname"
+            label="comments"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript><p>Comments are powered by GitHub issues. Enable JavaScript to view or add a comment.</p></noscript>
+  </section>
+
+
+  
+
+  <footer class="post-footer">
+    <p class="post-backlink"><a href="/blog/">&larr; Back to posts</a></p>
+    <nav class="post-nav">
+      
+        <a class="post-prev" href="/2025/12/21/welcome-to-my-blog/">&larr; Welcome — Blog is live</a>
+      
+      
+        <a class="post-next" href="/2025/12/23/ai-coding-stack-splitting-ide-vs-cli/">The AI Coding Stack Is Splitting: IDE-Native vs CLI-First &rarr;</a>
+      
+    </nav>
+  </footer>
+
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>© 2026 <a href="/">Viswaroop Vadlamudi</a></p>
+        <p class="social-links">
+          
+            <a href="https://github.com/vviswaroop" target="_blank" rel="noopener">github</a>
+          
+          
+            &nbsp; <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener">linkedin</a>
+          
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
