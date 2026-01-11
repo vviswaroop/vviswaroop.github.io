@@ -7,7 +7,7 @@ layout: default
 
   <header>
     <h1>{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%b %d, %Y" }} &middot; {{ page.author }} {% if page.categories %} &middot; {{ page.categories | join: ", " }}{% endif %} {% if page.reading_time %}&middot; {{ page.reading_time }} min read{% endif %}</p>
+    <p class="post-meta">{{ page.author }} {% if page.categories %} &middot; {{ page.categories | join: ", " }}{% endif %} {% if page.reading_time %}&middot; {{ page.reading_time }} min read{% endif %}</p>
   </header>
 
   {% if page.image %}
