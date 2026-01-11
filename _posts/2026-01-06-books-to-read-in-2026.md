@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Books I Plan to Read in 2026"
-date: 2026-01-06 09:00:00 -0500
 description: "My 2026 reading plan: money psychology, strategy, system design depth, and engineering craft."
 tags: [books, reading, learning, 2026, developer]
 categories: [developer]

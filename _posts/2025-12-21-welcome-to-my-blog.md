@@ -1,6 +1,5 @@
 ---
 title: "Welcome — Blog is live"
-date: 2025-12-21 12:00:00 -0600
 tags: [announcement]
 ---
 

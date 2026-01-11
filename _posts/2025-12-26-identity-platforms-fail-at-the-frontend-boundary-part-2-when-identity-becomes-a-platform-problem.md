@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Identity Platforms Fail at the Frontend Boundary (Part 2: When Identity Becomes a Platform Problem)"
-date: 2025-12-26
 description: "Why multi-tenant platforms, multi-region systems, and evolving authorization models push identity beyond managed abstractions."
 tags: [identity, oauth, oidc, platform, security, multi-tenant, multi-region, authorization, platform-engineering, infrastructure]
 categories: [infrastructure, platform, identity]
