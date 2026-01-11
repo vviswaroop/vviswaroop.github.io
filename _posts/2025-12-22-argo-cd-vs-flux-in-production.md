@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Argo CD vs Flux in Production: Insights from Running Both at Scale"
-date: 2025-12-22 09:00:00 -0500
 description: "Hard-earned lessons from operating Argo CD and Flux across multi-cluster, multi-team, security-sensitive environments."
 tags: [gitops, argocd, flux, kubernetes, platform-engineering, incidents, governance]
 categories: [infrastructure, platform, gitops]

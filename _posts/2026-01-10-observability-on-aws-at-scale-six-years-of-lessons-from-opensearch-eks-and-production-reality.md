@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Observability on AWS at Scale: Six Years of Lessons from OpenSearch, EKS, and Production Reality"
-date: 2026-01-10 09:00:00 -0500
 description: "What broke, what survived, and what I would design differently after six years running observability across EC2, ECS, EKS, and OpenSearch."
 tags: [developer, observability, aws, opensearch, eks, logging, metrics, tracing]
 categories: [developer]
