@@ -61,32 +61,12 @@ But it comes at a cost. GKE Ingress is powerful, but it is no longer portable Ku
 
 Ingress collapses too many concerns into one resource:
 
-<table>
-  <thead>
-    <tr>
-      <th>Concern</th>
-      <th>Who wants control</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Load balancer lifecycle</td>
-      <td>Platform team</td>
-    </tr>
-    <tr>
-      <td>TLS and certs</td>
-      <td>Security or platform</td>
-    </tr>
-    <tr>
-      <td>Routing rules</td>
-      <td>App teams</td>
-    </tr>
-    <tr>
-      <td>Policy and limits</td>
-      <td>Platform</td>
-    </tr>
-  </tbody>
-</table>
+| Concern | Who wants control |
+|---------|-------------------|
+| Load balancer lifecycle | Platform team |
+| TLS and certs | Security or platform |
+| Routing rules | App teams |
+| Policy and limits | Platform |
 
 Ingress has no native way to express this separation. Everything lives together, or not at all.
 
