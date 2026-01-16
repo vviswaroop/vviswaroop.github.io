@@ -3,7 +3,7 @@ layout: post
 title: "Ingress vs Gateway API on GKE: What Actually Changes in Production"
 description: "What changes in ownership, policy, and scale when you move from Ingress to Gateway API on GKE, and when you should not migrate yet."
 tags: [developer, kubernetes, gke, ingress, gateway-api, networking, platform]
-categories: [developer]
+categories: [infrastructure, platform, kubernetes]
 excerpt: "Gateway API on GKE is not just a new abstraction. It changes ownership boundaries, policy enforcement, and how teams share infrastructure at scale."
 author: "Viswaroop Vadlamudi"
 reading_time: 6
@@ -61,12 +61,32 @@ But it comes at a cost. GKE Ingress is powerful, but it is no longer portable Ku
 
 Ingress collapses too many concerns into one resource:
 
-| Concern | Who wants control |
-| --- | --- |
-| Load balancer lifecycle | Platform team |
-| TLS and certs | Security or platform |
-| Routing rules | App teams |
-| Policy and limits | Platform |
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Who wants control</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Load balancer lifecycle</td>
+      <td>Platform team</td>
+    </tr>
+    <tr>
+      <td>TLS and certs</td>
+      <td>Security or platform</td>
+    </tr>
+    <tr>
+      <td>Routing rules</td>
+      <td>App teams</td>
+    </tr>
+    <tr>
+      <td>Policy and limits</td>
+      <td>Platform</td>
+    </tr>
+  </tbody>
+</table>
 
 Ingress has no native way to express this separation. Everything lives together, or not at all.
 
