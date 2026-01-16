@@ -11,7 +11,7 @@ description: "About Viswaroop Vadlamudi — professional background"
   <p class="about-connect">
     <a class="btn btn--ghost" href="https://github.com/vviswaroop" target="_blank" rel="noopener">GitHub</a>
     <a class="btn btn--ghost" href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn btn--ghost" href="mailto:viswaroopdevops@gmail.com">Email</a>
+    <a class="btn btn--ghost" href="mailto:hello@viswaroop.dev">Email</a>
   </p>
 </header>
 

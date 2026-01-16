@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "The AI Coding Stack Is Splitting: IDE-Native vs CLI-First"
-date: 2025-12-23 09:00:00 -0500
 description: "Why teams are choosing between IDE-native AI and agentic, CLI-first workflows—and how to pick for your environment."
 tags: [developer, ai, tooling, cli, ide, productivity, governance]
 categories: [developer]

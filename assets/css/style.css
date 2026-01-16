@@ -47,6 +47,8 @@
 article.post header { margin-bottom: 1.25rem; }
 article.post header h1 { font-size: 2.25rem; line-height:1.08; margin-bottom:0.25rem; }
 article.post .post-meta { color: var(--muted); font-weight:600; font-size:0.92rem; margin-bottom:1rem }
+.post-hero { margin: 1rem 0 1.5rem }
+.post-hero img { width: 100%; height: auto }
 .post-content .lead { font-size:1.15rem; color:var(--text); max-width:72ch; line-height:1.75; margin-bottom:1rem }
 .post-content blockquote { border-left: 4px solid rgba(10,102,194,0.12); padding-left:1rem; margin:1.25rem 0; color:var(--text); font-style:italic; background: rgba(10,102,194,0.02); border-radius:6px; padding:1rem; }
 .post-content pre { background: #0f172a; color: #fff; padding:1rem; border-radius:8px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace; }
