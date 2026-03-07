@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Now" description="What I'm building, learning, and reading right now.">
+  <div class="max-w-2xl mx-auto py-12 md:py-20">
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">Now</h1>
+      <div class="w-12 h-1 bg-accent/50 rounded-full mb-8"></div>
+      <p class="text-gray-400">
+        This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-white hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">now page</a>, and if you have your own site, you should make one, too.
+      </p>
+    </div>
+
+    <div class="space-y-16 prose prose-invert prose-lg text-gray-300">
+      
+      <section>
+        <h2 class="text-2xl font-bold font-heading mb-6 flex items-center gap-3 text-white border-none">
+          <span class="text-accent font-mono text-sm font-normal">→</span> What I'm building
+        </h2>
+        <p>
+          I'm currently putting together a comprehensive GitOps reference architecture for multi-tenant, multi-cluster EKS footprints. It focuses heavily on standardizing the "golden path" for platform engineering teams dealing with more than a dozen product squads. 
+        </p>
+        <p>
+          You can read early drafts of the platform thoughts on the <a href="/blog/" class="text-white hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">blog</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold font-heading mb-6 flex items-center gap-3 text-white border-none">
+          <span class="text-accent font-mono text-sm font-normal">→</span> What I'm learning
+        </h2>
+        <p>
+          I've been spending nights and weekends diving into the modern AI-native developer tooling stack. Specifically, I'm building out custom Context Providers and Model Context Protocol (MCP) servers to bridge operational context (PagerDuty, Datadog) directly into IDE workspaces.
+        </p>
+        <p>
+          I'm fascinated by how LLMs evaluate infrastructure-as-code and configuration drift.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold font-heading mb-6 flex items-center gap-3 text-white border-none">
+          <span class="text-accent font-mono text-sm font-normal">→</span> What I'm reading
+        </h2>
+        <p>
+          I try to write down what I read to hold myself accountable. Right now I'm working through a mix of technical design books and fiction.
+        </p>
+        <ul class="list-none pl-0 space-y-2 mt-4">
+          <li class="flex items-start gap-2">
+            <span class="text-gray-500 mt-1">📚</span>
+            <span>Check out <a href="/blog/books-to-read-in-2026/" class="text-white hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">Books I Plan to Read in 2026</a></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gray-500 mt-1">📚</span>
+            <span>See my history of <a href="/blog/books-i-read-in-2025/" class="text-white hover:text-accent transition-colors underline decoration-white/20 underline-offset-4">Books I Read in 2025</a></span>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- Last updated marker -->
+    <div class="mt-20 pt-8 border-t border-white/5 font-mono text-sm text-gray-500">
+      <p>Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+    </div>
+  </div>
+</Layout>
