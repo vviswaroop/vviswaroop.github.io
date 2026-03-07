@@ -1,0 +1,194 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+---
+
+<Layout title="Home">
+  <!-- Hero Section -->
+  <section class="min-h-[70vh] flex flex-col justify-center relative py-20">
+    <div class="space-y-8 max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-sm text-sm text-accent font-mono mb-4">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+        </span>
+        Now: Building GitOps Reference Architectures
+        <a href="/now/" class="absolute inset-0" aria-label="See what I'm doing now"></a>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50">
+        I build the platform. <br class="hidden md:block"/> Then I write about why it breaks.
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-gray-400 font-medium leading-relaxed max-w-2xl">
+        Staff engineer specializing in identity systems, GitOps, and Kubernetes platforms that scale without the chaos.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
+        <a href="#featured-work" class="btn group">
+          See my work
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+        <a href="/blog/" class="btn-outline">
+          Read the blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-20 border-t border-white/5 relative">
+    <div class="absolute -top-px left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+        <span class="text-accent font-mono text-sm font-normal">01.</span> About
+      </h2>
+      <div class="prose prose-invert prose-lg text-gray-300">
+        <p>
+          I'm a Staff Software Engineer focused on platform and identity systems &mdash; the infrastructure that lets engineering teams ship fast without breaking security or each other.
+        </p>
+        <p>
+          I've spent years running multi-tenant Kubernetes platforms across AWS and GCP, replacing managed identity services with open-source IAM, and making GitOps actually work beyond 5 teams. 
+        </p>
+        <p>
+          I write about what I learn, because building it is only half the battle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expertise Pillars -->
+  <section class="py-20 relative">
+    <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
+      <span class="text-accent font-mono text-sm font-normal">02.</span> Core Expertise
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <Card title="Cloud Platforms">
+        <div class="absolute top-6 right-6 text-accent/20">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+          </svg>
+        </div>
+        <p class="text-gray-400 mt-2">
+          AWS EKS, GKE, multi-cloud strategies, and highly available multi-region footprints designed for operational resilience.
+        </p>
+      </Card>
+
+      <Card title="Identity & IAM">
+        <div class="absolute top-6 right-6 text-accent/20">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <p class="text-gray-400 mt-2">
+          Open-source identity stacks (ORY Hydra/Kratos/Keto), OAuth2 token flows, zero-trust architectures, and multi-tenant auth borders.
+        </p>
+      </Card>
+
+      <Card title="GitOps & Delivery">
+        <div class="absolute top-6 right-6 text-accent/20">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+        </div>
+        <p class="text-gray-400 mt-2">
+          Normalizing app delivery with ArgoCD, Kustomize, and Helm. Building golden paths and embedding policy-as-code.
+        </p>
+      </Card>
+
+      <Card title="Observability & Ops">
+        <div class="absolute top-6 right-6 text-accent/20">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <p class="text-gray-400 mt-2">
+          OpenSearch, Elastic, Dynatrace, New Relic. Meaningful SLOs, actionable alerting, and prioritizing incident learning over finger-pointing.
+        </p>
+      </Card>
+
+    </div>
+  </section>
+
+  <!-- Featured Work / Systems -->
+  <section id="featured-work" class="py-20 relative scroll-mt-24">
+    <div class="flex items-end justify-between mb-10">
+      <h2 class="text-3xl font-bold flex items-center gap-3">
+        <span class="text-accent font-mono text-sm font-normal">03.</span> Featured Work
+      </h2>
+      <a href="/work/" class="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block">View all work &rarr;</a>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <ProjectCard 
+        kicker="Platform Engineering"
+        title="GitOps-first multi-cloud platform"
+        description="Normalized app delivery across clouds with tenant-aware namespaces, promotion pipelines, and SLOs baked into templates."
+        stack={['ArgoCD', 'Kustomize', 'Helm', 'EKS/GKE']}
+        insightQuote="Blast radius alignment is a delivery problem, not just a security one."
+      />
+
+      <ProjectCard 
+        kicker="Identity & Tenancy"
+        title="Open-source IAM replacing AWS Cognito"
+        description="Replaced managed identity with open-source IAM — auth boundaries that survive org growth, audits, and SSO complexity."
+        stack={['ORY Hydra', 'Kratos', 'Keto', 'OAuth2']}
+        insightQuote="Cost and lock-in tradeoffs should be made explicit before you're three years in."
+      />
+
+      <ProjectCard 
+        kicker="Reliability & Operations"
+        title="Platform reliability guardrails"
+        description="Paved-road patterns and pre-flight checks so platform changes ship fast without breaking security or compliance."
+        stack={['SLOs', 'OPA', 'Runbooks', 'GitOps']}
+        insightQuote="Guardrails beat gates. Teams self-serve when the path is obvious."
+      />
+
+    </div>
+    <div class="mt-8 text-center sm:hidden">
+      <a href="/work/" class="text-sm text-gray-400 hover:text-white transition-colors">View all work &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA (Replaces "Case Studies I'm Writing") -->
+  <section class="py-24 border-y border-white/5 bg-surface/30 relative overflow-hidden my-20">
+    <div class="absolute -right-20 -top-20 w-64 h-64 bg-accent/10 rounded-full blur-[100px]"></div>
+    <div class="max-w-xl mx-auto text-center relative z-10">
+      <h2 class="text-2xl font-bold mb-4 font-heading tracking-tight">Deep dives coming soon.</h2>
+      <p class="text-gray-400 mb-8 leading-relaxed">
+        I’m currently writing up the architecture decisions behind these systems. Get the next post in your inbox — no noise, just deep dives.
+      </p>
+      
+      <form action="https://formspree.io/f/hello@viswaroop.dev" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <!-- REPLACE THE ACTION URL WITH YOUR ACTUAL FORMSPREE ENDPOINT LATER -->
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="your@email.com" 
+          required
+          class="flex-1 bg-background border border-gray-700 rounded-md px-4 py-2.5 text-white placeholder:text-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+        />
+        <button type="submit" class="btn whitespace-nowrap">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Open Source / Social -->
+  <section class="py-10 text-center">
+    <h3 class="font-heading text-xl font-semibold mb-4">Want to work together?</h3>
+    <p class="text-gray-400 mb-8 max-w-lg mx-auto">
+      I'm available for conference talks and podcasts on platform engineering, identity systems, and GitOps at scale.
+    </p>
+    <a href="mailto:hello@viswaroop.dev" class="btn-outline">
+      Get in touch
+    </a>
+  </section>
+
+</Layout>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+// Estimate reading time
+const words = post.body.trim().split(/\s+/).length;
+const readingTime = Math.ceil(words / 200) + ' min read';
+
+// Format date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(post.data.date);
+---
+
+<Layout title={post.data.title} description={post.data.description || `Read ${post.data.title} by ${post.data.author}`}>
+  <article class="max-w-2xl mx-auto py-12 md:py-20">
+    <header class="mb-12 pb-8 border-b border-white/5">
+      <div class="flex items-center gap-3 mb-6 text-sm text-gray-400 font-mono">
+        <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+        <span>&middot;</span>
+        <span>{readingTime}</span>
+        <span>&middot;</span>
+        <span class="text-accent">{post.data.author}</span>
+      </div>
+      
+      <h1 class="text-3xl md:text-5xl font-bold font-heading leading-tight tracking-tight mb-6">
+        {post.data.title}
+      </h1>
+      
+      <div class="flex flex-wrap gap-2">
+        {post.data.tags?.map((tag: string) => (
+          <a href={`/tags/${tag.toLowerCase()}`} class="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-gray-300 hover:text-accent hover:border-accent/30 transition-colors">
+            {tag}
+          </a>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose prose-invert prose-lg prose-headings:font-heading prose-headings:font-bold prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-pre:bg-surface prose-pre:border prose-pre:border-white/10 prose-img:rounded-xl">
+      <Content />
+    </div>
+    
+    <footer class="mt-20 pt-8 border-t border-white/5">
+      <div class="flex items-center justify-between">
+        <a href="/blog/" class="text-gray-400 hover:text-white font-mono text-sm transition-colors flex items-center gap-2">
+          &larr; Back to all posts
+        </a>
+        <a href={`https://github.com/vviswaroop/vviswaroop.github.io/blob/main/src/content/blog/${post.id}`} target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white font-mono text-sm transition-colors">
+          Suggest an edit on GitHub
+        </a>
+      </div>
+    </footer>
+  </article>
+</Layout>

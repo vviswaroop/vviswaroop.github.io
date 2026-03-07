@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+// Get all posts and sort by date
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Get unique tags
+const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+
+// Determine the featured post (usually the newest one, or manually specified)
+const featuredPost = sortedPosts[0];
+const recentPosts = sortedPosts.slice(1);
+---
+
+<Layout title="Blog" description="Writings on platform engineering, identity, and ops.">
+  <div class="py-12 md:py-20">
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">Writing</h1>
+      <p class="text-xl text-gray-400 max-w-2xl">
+        Deep dives into infrastructure, identity boundaries, and the reality of running multi-tenant platforms.
+      </p>
+    </div>
+
+    <!-- Tags Navigation -->
+    <div class="flex flex-wrap gap-3 mb-12 pb-8 border-b border-white/5">
+      <a href="/blog" class="px-4 py-1.5 rounded-full bg-accent text-black text-sm font-medium">All Posts</a>
+      {allTags.map(tag => (
+        <a href={`/tags/${tag.toLowerCase()}`} class="px-4 py-1.5 rounded-full bg-surface border border-white/10 text-gray-300 text-sm font-medium hover:bg-surface-hover hover:border-gray-500 transition-colors">
+          {tag}
+        </a>
+      ))}
+    </div>
+
+    <!-- Featured Post -->
+    {featuredPost && (
+      <div class="mb-12">
+        <h2 class="text-xs font-mono text-accent uppercase tracking-widest mb-4">Latest & Featured</h2>
+        <PostCard 
+          title={featuredPost.data.title}
+          date={featuredPost.data.date}
+          tags={featuredPost.data.tags}
+          url={`/blog/${featuredPost.slug}/`}
+          featured={true}
+        />
+      </div>
+    )}
+
+    <!-- Recent Posts Grid -->
+    <h2 class="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">Recent Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {recentPosts.map(post => (
+        <PostCard 
+          title={post.data.title}
+          date={post.data.date}
+          tags={post.data.tags}
+          url={`/blog/${post.slug}/`}
+        />
+      ))}
+    </div>
+
+    <!-- Newsletter Embed -->
+    <div class="mt-20 p-8 rounded-2xl bg-gradient-to-br from-surface to-background border border-accent/20 shadow-[0_0_40px_rgba(0,194,255,0.05)] text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50 z-0"></div>
+      
+      <div class="relative z-10">
+        <h3 class="font-heading text-2xl font-bold mb-2">Get the next post in your inbox</h3>
+        <p class="text-gray-400 mb-6">No noise, just deep dives.</p>
+        
+        <form action="https://formspree.io/f/hello@viswaroop.dev" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="your@email.com" 
+            required
+            class="flex-1 bg-background border border-gray-700 rounded-md px-4 py-2.5 text-white placeholder:text-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+          />
+          <button type="submit" class="btn whitespace-nowrap">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>

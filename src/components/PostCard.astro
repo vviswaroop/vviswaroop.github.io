@@ -1,0 +1,49 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  url: string;
+  tags?: string[];
+  readingTime?: string;
+  featured?: boolean;
+}
+
+const { title, date, url, tags = [], readingTime = '5 min read', featured = false } = Astro.props;
+
+// Format date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}).format(date);
+---
+
+<a href={url} class={`group block relative rounded-xl border border-white/5 bg-surface/50 p-6 transition-all duration-300 hover:border-accent/30 hover:bg-surface hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 ${featured ? 'md:col-span-2 md:p-8 bg-surface/80 border-white/10' : ''}`}>
+  
+  {featured && (
+    <div class="absolute -top-3 -right-3">
+      <span class="relative flex h-6 w-6">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-30"></span>
+        <span class="relative inline-flex rounded-full h-6 w-6 bg-accent/20 border border-accent/50 text-accent items-center justify-center text-xs">★</span>
+      </span>
+    </div>
+  )}
+
+  <div class="flex items-center gap-3 mb-4 text-sm text-gray-500 font-mono">
+    <time datetime={date.toISOString()}>{formattedDate}</time>
+    <span>&middot;</span>
+    <span>{readingTime}</span>
+  </div>
+  
+  <h3 class={`font-heading font-bold text-white group-hover:text-accent transition-colors mb-4 ${featured ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+    {title}
+  </h3>
+  
+  <div class="flex flex-wrap gap-2 mt-auto">
+    {tags.map((tag) => (
+      <span class="px-2 py-1 rounded text-[11px] font-mono uppercase tracking-wider bg-white/5 text-gray-400 group-hover:text-gray-300 transition-colors">
+        {tag}
+      </span>
+    ))}
+  </div>
+</a>

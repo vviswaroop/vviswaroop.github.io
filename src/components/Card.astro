@@ -1,0 +1,21 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className = '' } = Astro.props;
+---
+
+<div class={`card group ${className}`}>
+  <!-- Subtle top accent gradient that appears on hover -->
+  <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+  
+  {title && (
+    <h3 class="font-heading font-semibold text-xl text-white tracking-wide">
+      {title}
+    </h3>
+  )}
+  
+  <slot />
+</div>

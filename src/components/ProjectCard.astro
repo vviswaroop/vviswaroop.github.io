@@ -1,0 +1,46 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  description: string;
+  stack: string[];
+  insightQuote: string;
+}
+
+const { kicker, title, description, stack, insightQuote } = Astro.props;
+---
+
+<div class="card group">
+  <!-- Top glow -->
+  <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+  
+  <p class="text-accent font-mono text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
+    <span class="w-4 h-px bg-accent/50 inline-block"></span>
+    {kicker}
+  </p>
+  
+  <h3 class="font-heading font-bold text-2xl text-white mb-3 tracking-tight">
+    {title}
+  </h3>
+  
+  <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+    {description}
+  </p>
+  
+  <div class="flex flex-wrap gap-2 mb-6">
+    {stack.map(tech => (
+      <span class="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-gray-300">
+        {tech}
+      </span>
+    ))}
+  </div>
+  
+  <div class="mt-auto pt-4 border-t border-white/5 relative">
+    <svg class="absolute -top-3 left-4 w-6 h-6 text-accent/20 bg-surface px-1" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+    </svg>
+    <p class="text-[13px] text-gray-500 italic pl-1 relative z-10 leading-relaxed group-hover:text-gray-400 transition-colors">
+      "{insightQuote}"
+    </p>
+  </div>
+</div>
