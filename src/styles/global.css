@@ -1,5 +1,5 @@
-/* tailwind default theme configuration is mostly contained here in v4 */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-accent: #00C2FF;
