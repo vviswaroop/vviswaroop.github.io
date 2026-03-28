@@ -42,6 +42,35 @@ import ProjectCard from '../components/ProjectCard.astro';
         </div>
       </div>
 
+      <!-- AI Infrastructure Project -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/5 pb-12">
+        <div class="lg:col-span-5 lg:order-2">
+          <ProjectCard 
+            kicker="AI Orchestration & Security"
+            title="Agentic AI & Workflow Guardrails"
+            description="Architecting sandbox environments and secure IAM scopes for autonomous coding and orchestration agents, ensuring safe execution of LLM-generated workflows within enterprise guardrails."
+            stack={['n8n', 'Agentic AI', 'Sandboxing', 'OAuth2']}
+            insightQuote="AI agents without strict identity boundaries and network sandboxing are a devastating compliance risk waiting to happen."
+            class="h-full border-accent/20 bg-accent/5"
+          />
+        </div>
+        <div class="lg:col-span-7 lg:order-1 prose prose-invert">
+          <h3>The Challenge</h3>
+          <p>
+            Autonomous AI agents and tools like OpenDevin, Cursor, and n8n bring immense leverage but introduce massive security and stability risks if given unrestricted access to production environments or over-privileged tokens.
+          </p>
+          <h3>The Approach</h3>
+          <p>
+            I'm exploring the architecture required to securely host and execute Agentic AI workflows at enterprise scale.
+          </p>
+          <ul>
+            <li>Designing secure execution sandboxes on Kubernetes to isolate LLM-generated code execution.</li>
+            <li>Mapping strict OAuth2 scopes and Zanzibar-style relationship based permissions to autonomous agents acting on behalf of users.</li>
+            <li>Providing robust identity solutions for machine-to-machine interactions between workflow orchestrators and edge endpoints.</li>
+          </ul>
+        </div>
+      </div>
+
       <!-- Project 2 -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/5 pb-12">
         <div class="lg:col-span-5 lg:order-2">
