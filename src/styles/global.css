@@ -40,3 +40,11 @@
     @apply sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-md;
   }
 }
+
+/* Peer feedback: Snappy View Transition animations */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
