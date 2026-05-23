@@ -1,0 +1,108 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishDate?: Date;
+  author?: string;
+}
+
+const {
+  title,
+  description,
+  image = "/og-image.jpg",
+  article = false,
+  publishDate,
+  author = "Viswaroop Vadlamudi"
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://vviswaroop.github.io');
+const socialImageURL = new URL(image, Astro.url);
+
+// Agentic SEO Structured Data
+const baseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Viswaroop Vadlamudi",
+  "jobTitle": "Staff Software Engineer",
+  "url": Astro.site?.toString() || 'https://vviswaroop.github.io',
+  "sameAs": [
+    "https://github.com/vviswaroop",
+    "https://linkedin.com/in/viswaroopvadlamudi"
+  ],
+  "knowsAbout": [
+    "Agentic AI",
+    "Identity Platforms",
+    "Kubernetes",
+    "Platform Engineering",
+    "Zanzibar Authorization",
+    "LLM Sandboxing"
+  ]
+};
+
+const articleSchema = article ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": socialImageURL,
+  "author": {
+    "@type": "Person",
+    "name": author
+  },
+  ...(publishDate && { "datePublished": publishDate.toISOString() })
+} : null;
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Consulting",
+  "provider": {
+    "@type": "Person",
+    "name": "Viswaroop Vadlamudi"
+  },
+  "areaServed": "Worldwide",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Agentic AI Infrastructure Consulting",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Agentic AI Architecture Review"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Identity Platform Migration"
+        }
+      }
+    ]
+  }
+};
+---
+
+<link rel="canonical" href={canonicalURL} />
+
+<!-- OpenGraph Tags -->
+<meta property="og:title" content={title} />
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:description" content={description} />
+<meta property="og:site_name" content="Viswaroop Vadlamudi" />
+
+<!-- Twitter Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
+
+<!-- GEO / Agentic SEO Schema.org JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(baseSchema)} />
+{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />

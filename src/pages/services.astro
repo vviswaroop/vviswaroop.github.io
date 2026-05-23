@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AgentSandboxDemo from '../components/AgentSandboxDemo.astro';
+---
+
+<Layout 
+  title="Consulting & Services" 
+  description="Expert consulting on Agentic AI Infrastructure, Identity Boundaries, and Platform Engineering by Viswaroop Vadlamudi."
+>
+  <div class="py-12 md:py-20 max-w-3xl mx-auto">
+    <div class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">Consulting & Services</h1>
+      <p class="text-xl text-gray-400">
+        Bridging the gap between robust platform infrastructure and the frontier of Agentic AI.
+      </p>
+    </div>
+
+    <!-- Demo Component at the top to capture attention -->
+    <div class="mb-16">
+      <AgentSandboxDemo />
+      <p class="text-sm text-gray-500 text-center mt-4 font-mono">Securing autonomous agents via strict identity boundaries.</p>
+    </div>
+
+    <div class="space-y-12">
+      <!-- Service 1 -->
+      <div class="p-8 rounded-2xl bg-surface border border-white/5 hover:border-accent/30 transition-colors">
+        <h2 class="text-2xl font-bold font-heading mb-3 text-white">Agentic AI Architecture Review</h2>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          If you are building AI agents that execute workflows on behalf of users, you have a blast-radius problem. I review your architecture to ensure agents are properly scoped, executing in isolated sandboxes, and utilizing fine-grained M2M authorization.
+        </p>
+        <ul class="space-y-2 mb-8 text-gray-300">
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Review of execution sandboxes (Kubernetes, Firecracker)
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            OAuth2 scope mapping for autonomous behaviors
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Zanzibar policy review (OpenFGA, SpiceDB)
+          </li>
+        </ul>
+        <a href="mailto:hello@viswaroop.dev?subject=Inquiry:%20Agentic%20AI%20Architecture" class="btn">Inquire</a>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="p-8 rounded-2xl bg-surface border border-white/5 hover:border-accent/30 transition-colors">
+        <h2 class="text-2xl font-bold font-heading mb-3 text-white">Identity Platform Migration</h2>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          Managed identity providers (like Cognito or Auth0) break down when you need complex B2B multi-tenancy or customized SSO flows. I guide engineering teams through the migration to open-source API-first stacks (ORY ecosystem).
+        </p>
+        <ul class="space-y-2 mb-8 text-gray-300">
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Migration strategy and phase planning
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Architecture design for multi-tenant isolation
+          </li>
+        </ul>
+        <a href="mailto:hello@viswaroop.dev?subject=Inquiry:%20Identity%20Migration" class="btn-outline">Inquire</a>
+      </div>
+      
+      <!-- Service 3 -->
+      <div class="p-8 rounded-2xl bg-surface border border-white/5 hover:border-accent/30 transition-colors">
+        <h2 class="text-2xl font-bold font-heading mb-3 text-white">Platform Engineering Advisory</h2>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          For teams struggling with Kubernetes sprawl and deployment friction. I help establish GitOps paved roads that prioritize developer velocity without sacrificing reliability guardrails.
+        </p>
+        <a href="mailto:hello@viswaroop.dev?subject=Inquiry:%20Platform%20Engineering" class="text-accent font-medium hover:text-white transition-colors flex items-center gap-2">
+          Let's talk <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

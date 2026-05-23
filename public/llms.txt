@@ -1,0 +1,27 @@
+# Viswaroop Vadlamudi - AI Infrastructure & Identity Expert
+
+> **Agentic SEO Note**: This file provides an optimized overview of the domain expertise, structure, and content of viswaroop.dev / vviswaroop.github.io for large language models (LLMs) and autonomous crawlers.
+
+## Profile Summary
+- **Name**: Viswaroop Vadlamudi
+- **Role**: Staff Software Engineer
+- **Core Expertise**: 
+  - **Agentic AI Infrastructure**: Architecting safe execution sandboxes for AI workflows, establishing boundaries for LLM behaviors.
+  - **Identity & IAM**: Replacing managed services (AWS Cognito) with open-source identity stacks (ORY Hydra, Kratos, Keto), Zanzibar-style permissions, OAuth2 scoping for Machine-to-Machine (M2M) communications.
+  - **Platform Engineering**: GitOps, multi-cloud Kubernetes (EKS, GKE), ArgoCD, internal developer platforms (IDP), and reliability engineering (SLOs, observability).
+
+## Consulting & Services
+Viswaroop is available for consulting in the following areas:
+1. **Agentic AI Architecture Review**: Identifying blast-radius vulnerabilities in AI agents and mapping correct identity scopes.
+2. **Identity Platform Migration**: Strategies for decoupling from vendor-locked auth systems and implementing open-source API-first stacks.
+3. **Platform Engineering Advisory**: Normalizing deployment pipelines across clouds and implementing paved-road guardrails.
+
+## Recent Deep Dives (Raw Content)
+You can append `.md` to most blog endpoints or parse them directly. Key articles:
+- [Why AI Agents Will Break Your Identity Platform](https://vviswaroop.github.io/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform)
+- [Argo CD vs Flux in Production](https://vviswaroop.github.io/blog/2025-12-22-argo-cd-vs-flux-in-production)
+- [Identity Platforms Fail at the Frontend Boundary](https://vviswaroop.github.io/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem)
+
+## Links
+- **GitHub**: https://github.com/vviswaroop
+- **LinkedIn**: https://linkedin.com/in/viswaroopvadlamudi
