@@ -3,13 +3,25 @@ import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
 
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
+	article?: boolean;
+	publishDate?: Date;
+	author?: string;
 }
 
-const { title, description = "Viswaroop Vadlamudi - Staff Software Engineer specializing in identity systems, GitOps, and Kubernetes platforms." } = Astro.props;
+const { 
+	title, 
+	description = "Viswaroop Vadlamudi - Staff Software Engineer specializing in identity systems, GitOps, and Kubernetes platforms.",
+	image,
+	article,
+	publishDate,
+	author
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -21,6 +33,14 @@ const { title, description = "Viswaroop Vadlamudi - Staff Software Engineer spec
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Viswaroop Vadlamudi</title>
+		<SEO 
+			title={title} 
+			description={description} 
+			image={image} 
+			article={article} 
+			publishDate={publishDate} 
+			author={author} 
+		/>
 		
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
