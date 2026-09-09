@@ -25,3 +25,14 @@ body{background:var(--paper);color:var(--ink)}::selection{background:#f9bc8b;col
 
 .map-id{display:block;padding-right:12px}.nav{font-size:14px}.nav a{font-size:14px}.rail-bottom>a{font-size:14px}.map-stop>span:last-of-type{font-size:14px}.map-legend .eyebrow{white-space:normal}.atlas-topline{flex-wrap:wrap}.dossier-related>span{min-width:135px}.plate-caption{flex-wrap:wrap}.atlas-topline a:focus-visible{outline-color:var(--blue)}
 @media(max-width:760px){.map-stop>span:last-of-type{font-size:14px}.map-surface{height:auto}.brand-caption{font-size:12px}.brand-caption br{display:initial}.atlas-topline{font-size:12px}}
+
+/* A print portrait connects the atlas to its author. */
+.portrait-print{margin:0}.portrait-print img{display:block;width:100%;height:auto;border:1px solid var(--line)}.portrait-print figcaption{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--muted);margin-top:10px;letter-spacing:.02em}.portrait-home{width:220px;max-width:100%}.atlas-intro .intro-personal{padding-top:0}.portrait-about{margin-bottom:28px}.about-sidebar{min-width:0}.portrait-about img{max-width:280px}.portrait-home figcaption{max-width:260px}@media(max-width:760px){.portrait-home{width:220px}.portrait-about{max-width:280px}.about-sidebar{max-width:100%}}
+
+/* Let the homepage portrait read as ink on the atlas paper. */
+.portrait-home img {
+  border: 0;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 65% 72% at 50% 36%, #000 48%, rgba(0, 0, 0, .96) 62%, transparent 94%);
+  mask-image: radial-gradient(ellipse 65% 72% at 50% 36%, #000 48%, rgba(0, 0, 0, .96) 62%, transparent 94%);
+}
