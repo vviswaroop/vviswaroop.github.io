@@ -11,14 +11,14 @@ export interface Props {
 const {
   title,
   description,
-  image = "/og-image.jpg",
+  image,
   article = false,
   publishDate,
   author = "Viswaroop Vadlamudi"
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://vviswaroop.github.io');
-const socialImageURL = new URL(image, Astro.url);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://viswaroop.dev');
+const socialImageURL = image ? new URL(image, Astro.site || 'https://viswaroop.dev') : undefined;
 
 // Agentic SEO Structured Data
 const baseSchema = {
@@ -26,7 +26,7 @@ const baseSchema = {
   "@type": "Person",
   "name": "Viswaroop Vadlamudi",
   "jobTitle": "Staff Software Engineer",
-  "url": Astro.site?.toString() || 'https://vviswaroop.github.io',
+  "url": Astro.site?.toString() || 'https://viswaroop.dev',
   "sameAs": [
     "https://github.com/vviswaroop",
     "https://linkedin.com/in/viswaroopvadlamudi"
@@ -92,17 +92,17 @@ const serviceSchema = {
 <meta property="og:title" content={title} />
 <meta property="og:type" content={article ? "article" : "website"} />
 <meta property="og:url" content={canonicalURL} />
-<meta property="og:image" content={socialImageURL} />
+{socialImageURL && <meta property="og:image" content={socialImageURL} />}
 <meta property="og:description" content={description} />
 <meta property="og:site_name" content="Viswaroop Vadlamudi" />
 
 <!-- Twitter Tags -->
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content={socialImageURL ? "summary_large_image" : "summary"} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={socialImageURL} />
+{socialImageURL && <meta name="twitter:image" content={socialImageURL} />}
 
 <!-- GEO / Agentic SEO Schema.org JSON-LD -->
 <script type="application/ld+json" set:html={JSON.stringify(baseSchema)} />
 {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
-<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+{Astro.url.pathname.startsWith("/services") && <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />}

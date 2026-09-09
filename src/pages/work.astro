@@ -1,135 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import SystemPlate from '../components/SystemPlate.astro';
+import AgentSandboxDemo from '../components/AgentSandboxDemo.astro';
 ---
-
-<Layout title="Work" description="Systems and platforms architected and led by Viswaroop Vadlamudi.">
-  <div class="py-12 md:py-20">
-    <div class="mb-16">
-      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">Work & Systems</h1>
-      <p class="text-xl text-gray-400 max-w-2xl">
-        A deep dive into the platforms and infrastructure I've architected to enable organizations to scale securely.
-      </p>
-    </div>
-
-    <div class="space-y-12">
-      <!-- Project 1 -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/5 pb-12">
-        <div class="lg:col-span-5">
-          <ProjectCard 
-            kicker="Platform Engineering"
-            title="GitOps-first multi-cloud platform"
-            description="Normalized app delivery across clouds with tenant-aware namespaces, promotion pipelines, and SLOs baked into templates."
-            stack={['ArgoCD', 'Kustomize', 'Helm', 'EKS/GKE']}
-            insightQuote="Blast radius alignment is a delivery problem, not just a security one."
-            class="h-full border-accent/20 bg-accent/5"
-          />
-        </div>
-        <div class="lg:col-span-7 prose prose-invert">
-          <h3>The Challenge</h3>
-          <p>
-            When scaling beyond a handful of teams, ad-hoc deployment scripts and manual AWS/GCP console clicks become the biggest bottleneck to engineering velocity and the primary source of operational friction.
-          </p>
-          <h3>The Approach</h3>
-          <p>
-            I designed a multi-tenant platform using the ArgoCD, Kustomize, and Helm stack to completely normalize how applications are delivered, regardless of whether they target AWS EKS or GCP GKE.
-          </p>
-          <ul>
-            <li>Established strict tenant-aware namespaces with hard quotas and network policies enforced by default.</li>
-            <li>Built automated promotion pipelines that enforce blast radius containment and risk alignment before production rollouts.</li>
-            <li>Embedded operational readiness—standardized logging, metrics, and SLO definitions—directly into the base deployment templates.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- AI Infrastructure Project -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/5 pb-12">
-        <div class="lg:col-span-5 lg:order-2">
-          <ProjectCard 
-            kicker="AI Orchestration & Security"
-            title="Agentic AI & Workflow Guardrails"
-            description="Architecting sandbox environments and secure IAM scopes for autonomous coding and orchestration agents, ensuring safe execution of LLM-generated workflows within enterprise guardrails."
-            stack={['n8n', 'Agentic AI', 'Sandboxing', 'OAuth2']}
-            insightQuote="AI agents without strict identity boundaries and network sandboxing are a devastating compliance risk waiting to happen."
-            class="h-full border-accent/20 bg-accent/5"
-          />
-        </div>
-        <div class="lg:col-span-7 lg:order-1 prose prose-invert">
-          <h3>The Challenge</h3>
-          <p>
-            Autonomous AI agents and tools like OpenDevin, Cursor, and n8n bring immense leverage but introduce massive security and stability risks if given unrestricted access to production environments or over-privileged tokens.
-          </p>
-          <h3>The Approach</h3>
-          <p>
-            I'm exploring the architecture required to securely host and execute Agentic AI workflows at enterprise scale.
-          </p>
-          <ul>
-            <li>Designing secure execution sandboxes on Kubernetes to isolate LLM-generated code execution.</li>
-            <li>Mapping strict OAuth2 scopes and Zanzibar-style relationship based permissions to autonomous agents acting on behalf of users.</li>
-            <li>Providing robust identity solutions for machine-to-machine interactions between workflow orchestrators and edge endpoints.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/5 pb-12">
-        <div class="lg:col-span-5 lg:order-2">
-          <ProjectCard 
-            kicker="Identity & Tenancy"
-            title="Open-source IAM replacing AWS Cognito"
-            description="Replaced managed identity with open-source IAM — auth boundaries that survive org growth, audits, and SSO complexity."
-            stack={['ORY Hydra', 'Kratos', 'Keto', 'OAuth2']}
-            insightQuote="Cost and lock-in tradeoffs should be made explicit before you're three years in."
-            class="h-full"
-          />
-        </div>
-        <div class="lg:col-span-7 lg:order-1 prose prose-invert">
-          <h3>The Challenge</h3>
-          <p>
-            Managed identity providers like AWS Cognito often fail to scale gracefully when business requirements evolve to require complex B2B multi-tenancy, custom enterprise SSO integrations, and fine-grained authorization rules.
-          </p>
-          <h3>The Approach</h3>
-          <p>
-            I led the architecture and migration away from restrictive managed services toward an open-source, API-first identity stack using the ORY ecosystem (Hydra, Kratos, Keto).
-          </p>
-          <ul>
-            <li>Modeled and implemented strict auth boundaries and token flows that isolated tenants cryptographically and survived rigorous compliance audits.</li>
-            <li>Built predictable self-service onboarding flows for new applications integrating into the identity platform.</li>
-            <li>Decoupled authentication from authorization, allowing for highly complex, relationship-based access control (Zanzibar model) using Keto.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-5">
-          <ProjectCard 
-            kicker="Reliability & Operations"
-            title="Platform reliability guardrails"
-            description="Paved-road patterns and pre-flight checks so platform changes ship fast without breaking security or compliance."
-            stack={['SLOs', 'OPA', 'Runbooks', 'GitOps']}
-            insightQuote="Guardrails beat gates. Teams self-serve when the path is obvious."
-            class="h-full"
-          />
-        </div>
-        <div class="lg:col-span-7 prose prose-invert">
-          <h3>The Challenge</h3>
-          <p>
-            Security and compliance gates traditionally slow down platform teams. Attempting to review every change manually results in alert fatigue and delayed releases.
-          </p>
-          <h3>The Approach</h3>
-          <p>
-            I implemented a "paved-road" philosophy, replacing manual approval gates with automated guardrails embedded directly into the developer workflow.
-          </p>
-          <ul>
-            <li>Introduced Open Policy Agent (OPA) to enforce security checks, identity standards, and required secrets configurations as pre-flight checks in CI.</li>
-            <li>Co-owned Service Level Objectives (SLOs) and incident runbooks with product engineering teams, shifting from opaque platform operations to shared responsibility.</li>
-            <li>Documented all cost and reliability trade-offs using Architecture Decision Records (ADRs) to ensure long-term visibility.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-    
-  </div>
+<Layout title="Work" description="An atlas of platforms, identity systems, and the decisions behind them. Engineering work by Viswaroop Vadlamudi.">
+<div class="atlas-topline"><a href="/">PERSONAL ATLAS</a><span>01 / SYSTEMS</span></div>
+<header class="work-heading"><div><p class="eyebrow orange">Built, operated, reconsidered.</p><h1>UNDER THE<br/>SURFACE<span class="orange">.</span></h1></div><p>A system diagram shows the connections.<br/><br/>These are the decisions underneath them.</p></header>
+<nav class="project-index" aria-label="Jump to a system"><a href="#multi-cloud"><span>01</span> Delivery across clouds ↘</a><a href="#identity"><span>02</span> Owning identity ↘</a><a href="#reliability"><span>03</span> Reliability loops ↘</a><a href="#agents"><span>04</span> Agent boundaries ↘</a></nav>
+<div class="page-body">
+<section class="dossier" id="multi-cloud"><header class="dossier-head"><span class="dossier-number">01</span><div><p class="eyebrow">Platform engineering / Architecture & implementation</p><h2>Different clouds.<br/>One way to ship.</h2></div><span class="dossier-code">SYS—001</span></header><SystemPlate kind="platform"/><div class="plate-caption"><span>FIG. 01 — DELIVERY CONTRACT</span><span>Argo CD / Kustomize / Helm / EKS / GKE</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>More teams meant more deployment scripts, console changes, and coordination. The platform needed a delivery path that stayed understandable as it grew.</p></div><div><p class="eyebrow">My contribution</p><p>I designed a multi-tenant GitOps platform across EKS and GKE, with tenant quotas, network policies, promotion pipelines, and operational readiness in the templates.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Standardize the delivery contract. Keep the cloud-specific tradeoffs visible.</p></div></div><details class="implementation"><summary>Inside the implementation <span aria-hidden="true">+</span></summary><div class="prose"><ul><li>Tenant-aware namespaces with resource quotas and network policies.</li><li>Promotion pipelines that account for blast radius before production.</li><li>Logging, metrics, and SLO definitions embedded in deployment templates.</li></ul><p>The operational differences between clouds still matter. A consistent delivery path should make those differences explicit, rather than pretend they don’t exist.</p></div></details><a class="dossier-related" href="/blog/2025-12-22-argo-cd-vs-flux-in-production/"><span>CONNECTED NOTE</span> Argo CD vs Flux in production <b aria-hidden="true">↗</b></a></section>
+<section class="dossier" id="identity"><header class="dossier-head"><span class="dossier-number">02</span><div><p class="eyebrow">Identity & tenancy / Architecture & migration</p><h2>Own the boundary.<br/>Not just the login.</h2></div><span class="dossier-code">SYS—002</span></header><SystemPlate kind="identity"/><div class="plate-caption"><span>FIG. 02 — SEPARATE RESPONSIBILITIES</span><span>ORY Hydra / Kratos / Keto / OAuth2</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>B2B multi-tenancy, enterprise SSO, and fine-grained permissions were pushing beyond the existing managed identity setup.</p></div><div><p class="eyebrow">My contribution</p><p>I led the architecture and migration from AWS Cognito to ORY, separating authentication, OAuth2 token flows, and relationship-based authorization.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Make each boundary explicit, with clear ownership for the teams integrating with it.</p></div></div><details class="implementation"><summary>Inside the implementation <span aria-hidden="true">+</span></summary><div class="prose"><ul><li>Modeled tenant boundaries and token flows across services.</li><li>Built predictable self-service onboarding for application integrations.</li><li>Used Keto for relationship-based access control.</li></ul><p>Moving providers was one part of the work. Deciding where authentication ends, authorization begins, and product teams take responsibility was the more lasting part.</p></div></details><a class="dossier-related" href="/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem/"><span>CONNECTED NOTE</span> Identity fails at the frontend boundary <b aria-hidden="true">↗</b></a></section>
+<section class="dossier" id="reliability"><header class="dossier-head"><span class="dossier-number">03</span><div><p class="eyebrow">Reliability / Guardrails & operating practices</p><h2>Make the safe path<br/>the obvious one.</h2></div><span class="dossier-code">SYS—003</span></header><SystemPlate kind="reliability"/><div class="plate-caption"><span>FIG. 03 — CLOSE THE LEARNING LOOP</span><span>OPA / SLOs / GitOps / Runbooks / ADRs</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>Manual review gates created delays, while operational expectations stayed disconnected from the way teams shipped.</p></div><div><p class="eyebrow">My contribution</p><p>I embedded policy checks in CI, co-owned SLOs and incident runbooks with product teams, and recorded cost and reliability tradeoffs in ADRs.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Put guardrails in the workflow. Put learning back into the next change.</p></div></div><a class="dossier-related" href="/blog/2026-01-10-observability-on-aws-at-scale-six-years-of-lessons-from-opensearch-eks-and-production-reality/"><span>CONNECTED NOTE</span> Six years of observability lessons <b aria-hidden="true">↗</b></a></section>
+<section class="dossier exploration" id="agents"><header class="dossier-head"><span class="dossier-number">04</span><div><p class="eyebrow orange">Ongoing exploration / Not a production case study</p><h2>What if the caller<br/>isn’t a person?</h2></div><span class="dossier-code">WIP—004</span></header><div class="exploration-intro"><p>I’m exploring how autonomous workflows should act on behalf of users, with scoped identity and isolated execution.</p><p class="question">What has to be true before an agent is allowed to act?</p></div><AgentSandboxDemo/><a class="dossier-related" href="/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform/"><span>CONNECTED NOTE</span> Why agents will break your identity platform <b aria-hidden="true">↗</b></a></section>
+<section class="atlas-signoff"><p>Your system probably has<br/>an interesting boundary, too.</p><a href="/services/">LET’S LOOK AT IT <span aria-hidden="true">↗</span></a></section>
+</div>
 </Layout>

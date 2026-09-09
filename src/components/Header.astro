@@ -1,49 +1,9 @@
 ---
-const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Work', href: '/work/' },
-  { label: 'Services', href: '/services/' },
-  { label: 'Blog', href: '/blog/' },
-  { label: 'Now', href: '/now/' },
-  { label: 'About', href: '/about/' },
-];
-
-const currentPath = Astro.url.pathname;
+const path=Astro.url.pathname;
+const links=[{n:'00',name:'The map',url:'/'},{n:'01',name:'Work',url:'/work/'},{n:'02',name:'Writing',url:'/blog/'},{n:'03',name:'About',url:'/about/'},{n:'04',name:'Now',url:'/now/'}];
 ---
-
-<header class="glass-nav">
-  <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">
-    <a href="/" class="font-heading font-bold text-xl tracking-tighter text-white hover:text-accent transition-colors">
-      <span class="text-accent">&lt;</span>viswaroop.dev<span class="text-accent">/&gt;</span>
-    </a>
-    
-    <!-- Mobile Menu Toggle (CSS-only or minimal JS) -->
-    <input type="checkbox" id="nav-toggle" class="hidden peer" />
-    <label for="nav-toggle" class="md:hidden cursor-pointer p-2 z-50 text-gray-300 hover:text-white">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-    </label>
-
-    <!-- Navigation Links -->
-    <nav class="absolute md:static top-full left-0 w-full md:w-auto bg-surface md:bg-transparent border-b md:border-none border-white/10 hidden peer-checked:block md:block shadow-xl md:shadow-none z-40">
-      <ul class="flex flex-col md:flex-row md:items-center p-4 md:p-0 gap-2 md:gap-8">
-        {navItems.map(({ label, href }) => {
-          const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
-          return (
-            <li>
-              <a 
-                href={href} 
-                class={`block px-4 py-2 md:p-0 text-sm font-medium transition-colors ${
-                  isActive ? 'text-accent' : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  </div>
+<header class="masthead">
+<a class="wordmark" href="/" aria-label="Viswaroop Vadlamudi — home"><span class="monogram" aria-hidden="true">V/V</span><span>Viswaroop <br/>Vadlamudi<span class="brand-caption">Engineer. Reader.<br/>Work in progress.</span></span></a>
+<nav class="nav" aria-label="Main navigation">{links.map(link=><a href={link.url} aria-current={(link.url==='/'?path==='/':path.startsWith(link.url))?'page':undefined}><span class="nav-number">{link.n}</span>{link.name}<span class="nav-indicator" aria-hidden="true">↗</span></a>)}</nav>
+<div class="rail-bottom"><span class="rail-note">A personal atlas.<br/>Always being revised.</span><a href="mailto:hello@viswaroop.dev">Say hello ↗</a><a href="https://www.linkedin.com/in/viswaroopvadlamudi/">LinkedIn ↗</a><a href="https://github.com/vviswaroop">GitHub ↗</a></div>
 </header>

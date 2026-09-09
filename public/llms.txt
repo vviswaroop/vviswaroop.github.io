@@ -17,10 +17,10 @@ Viswaroop is available for consulting in the following areas:
 3. **Platform Engineering Advisory**: Normalizing deployment pipelines across clouds and implementing paved-road guardrails.
 
 ## Recent Deep Dives (Raw Content)
-You can append `.md` to most blog endpoints or parse them directly. Key articles:
-- [Why AI Agents Will Break Your Identity Platform](https://vviswaroop.github.io/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform)
-- [Argo CD vs Flux in Production](https://vviswaroop.github.io/blog/2025-12-22-argo-cd-vs-flux-in-production)
-- [Identity Platforms Fail at the Frontend Boundary](https://vviswaroop.github.io/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem)
+Articles are available as HTML at the following URLs:
+- [Why AI Agents Will Break Your Identity Platform](https://viswaroop.dev/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform)
+- [Argo CD vs Flux in Production](https://viswaroop.dev/blog/2025-12-22-argo-cd-vs-flux-in-production)
+- [Identity Platforms Fail at the Frontend Boundary](https://viswaroop.dev/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem)
 
 ## Links
 - **GitHub**: https://github.com/vviswaroop

@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://vviswaroop.github.io',
+  site: 'https://viswaroop.dev',
   vite: {
     plugins: [tailwindcss()]
   },
