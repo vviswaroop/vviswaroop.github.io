@@ -1,53 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
+import {getCollection} from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const uniqueTags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
-
-  return uniqueTags.map((tag) => {
-    const filteredPosts = posts.filter((post) => post.data.tags?.includes(tag)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-    return {
-      params: { tag: tag.toLowerCase() },
-      props: { posts: filteredPosts, tagName: tag },
-    };
-  });
+export async function getStaticPaths(){
+ const posts=await getCollection('blog');
+ const tags=[...new Set(posts.flatMap(p=>p.data.tags.map(t=>t.toLowerCase())))];
+ return tags.map(tag=>({params:{tag},props:{tag,posts:posts.filter(p=>p.data.tags.some(t=>t.toLowerCase()===tag)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf())}}));
 }
-
-const { tag } = Astro.params;
-const { posts, tagName } = Astro.props;
+const {tag,posts}=Astro.props;
 ---
-
-<Layout title={`Posts tagged "${tagName}"`} description={`Read all posts tagged as ${tagName}`}>
-  <div class="py-12 md:py-20">
-    <div class="mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">
-        Posts tagged <span class="text-accent">#{tagName}</span>
-      </h1>
-      <p class="text-xl text-gray-400">
-        Found {posts.length} {posts.length === 1 ? 'post' : 'posts'}
-      </p>
-    </div>
-
-    <!-- Back to blog -->
-    <div class="mb-12 pb-8 border-b border-white/5">
-      <a href="/blog/" class="text-gray-400 hover:text-white font-mono text-sm transition-colors flex items-center gap-2">
-        &larr; View all posts
-      </a>
-    </div>
-
-    <!-- Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {posts.map(post => (
-        <PostCard 
-          title={post.data.title}
-          date={post.data.date}
-          tags={post.data.tags}
-          url={`/blog/${post.slug}/`}
-        />
-      ))}
-    </div>
-  </div>
+<Layout title={`Notes on ${tag}`} description={`Writing about ${tag} from Viswaroop’s notebook.`}>
+<header class="page-heading"><p class="eyebrow blue">The notebook / Topic index</p><h1>Notes on <em>{tag}.</em></h1><p>{posts.length} {posts.length===1?'entry':'entries'} in the notebook.</p></header>
+<div class="page-body"><a class="text-link" style="margin-bottom:30px" href="/blog/">← All writing</a>{posts.map(post=><PostCard title={post.data.title} date={post.data.date} tags={post.data.tags} url={`/blog/${post.slug}/`} readingTime={`${Math.ceil(post.body.trim().split(/\s+/).length/200)} min read`}/>)}</div>
 </Layout>

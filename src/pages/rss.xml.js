@@ -2,11 +2,11 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
 export async function GET(context) {
-  const blog = await getCollection('blog');
+  const blog = (await getCollection('blog')).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
   return rss({
-    title: 'Viswaroop Vadlamudi | Agentic AI & Platform Engineering',
-    description: 'Deep dives on Agentic AI Infrastructure, Identity Boundaries, and Platform Engineering.',
-    site: context.site || 'https://vviswaroop.github.io',
+    title: 'Viswaroop Vadlamudi — Systems & notes',
+    description: 'Notes on platforms, identity, books, and learning along the way.',
+    site: context.site || 'https://viswaroop.dev',
     items: blog.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,

@@ -1,0 +1,27 @@
+<figure class="diagram-sheet">
+  <p class="eyebrow">Field note / 001</p>
+  <svg viewBox="0 0 360 256" role="img" aria-labelledby="boundary-title boundary-desc">
+    <title id="boundary-title">Permission before execution</title>
+    <desc id="boundary-desc">A request passes through an identity boundary. An allowed request reaches an isolated workload. A denied request stops at the boundary.</desc>
+    <defs><pattern id="grid" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M18 0H0V18" fill="none" stroke="#dbe1f2" stroke-width=".6"/></pattern><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#234bda"/></marker></defs>
+    <rect width="360" height="256" fill="url(#grid)"/>
+    <rect x="16" y="69" width="88" height="51" fill="#fafaf7" stroke="#596887"/>
+    <text x="60" y="99" text-anchor="middle" font-family="monospace" font-size="12" fill="#293449">request</text>
+    <path d="M104 94H154" stroke="#234bda" marker-end="url(#arr)"/>
+    <path d="M166 32V197" stroke="#234bda" stroke-dasharray="4 5"/>
+    <circle cx="166" cy="94" r="10" fill="#234bda"/>
+    <path d="M161 94l3 3 6-7" fill="none" stroke="white" stroke-width="1.5"/>
+    <text x="168" y="19" text-anchor="middle" font-family="monospace" font-size="11" fill="#234bda">identity boundary</text>
+    <path d="M178 94H242" stroke="#234bda" marker-end="url(#arr)"/>
+    <text x="211" y="81" text-anchor="middle" font-family="monospace" font-size="10" fill="#526394">allow</text>
+    <rect x="250" y="57" width="95" height="78" rx="1" fill="none" stroke="#596887" stroke-dasharray="3 3"/>
+    <rect x="260" y="69" width="75" height="51" fill="#fafaf7" stroke="#596887"/>
+    <text x="298" y="99" text-anchor="middle" font-family="monospace" font-size="11" fill="#293449">workload</text>
+    <text x="298" y="153" text-anchor="middle" font-family="monospace" font-size="10" fill="#526394">isolated execution</text>
+    <path d="M154 103L124 168H74" fill="none" stroke="#996c4d"/>
+    <path d="M70 162v12M76 162v12" stroke="#996c4d"/>
+    <text x="108" y="188" text-anchor="middle" font-family="monospace" font-size="10" fill="#846148">deny → stop here</text>
+    <text x="180" y="233" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="16" fill="#234bda">Every arrow is a trust decision.</text>
+  </svg>
+  <figcaption>From my notes on identity & agent workflows.</figcaption>
+</figure>

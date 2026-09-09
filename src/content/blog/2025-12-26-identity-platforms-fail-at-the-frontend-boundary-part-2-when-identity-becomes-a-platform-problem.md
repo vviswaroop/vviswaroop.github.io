@@ -6,7 +6,7 @@ tags: ["Identity", "Platform", "AI"]
 
 > **TL;DR:** Frontend friction is the symptom. The root cause shows up when identity becomes shared platform infrastructure spanning tenants, apps, and regions. At that point, the abstractions of managed identity services collide with the needs of platform teams that need explicit contracts and evolvable authorization.
 
-<p class="lead">In <a href="/2025/12/21/identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem.html">Part 1</a>, I argued that identity systems fail first at the browser-facing boundary: cookies, redirects, refresh semantics, and failure UX. That is the visible edge. The deeper problem emerges when identity stops belonging to a single app and becomes platform infrastructure.</p>
+<p class="lead">In <a href="/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem/">Part 1</a>, I argued that identity systems fail first at the browser-facing boundary: cookies, redirects, refresh semantics, and failure UX. That is the visible edge. The deeper problem emerges when identity stops belonging to a single app and becomes platform infrastructure.</p>
 
 Platform teams live in a different reality than application teams. They share tenants across apps, move traffic across regions, and evolve authorization faster than authentication. That is where managed identity abstractions start to feel constraining.
 

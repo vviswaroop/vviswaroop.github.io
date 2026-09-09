@@ -1,57 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
-<Layout title="About" description="Staff Software Engineer focused on platform and identity systems.">
-  <div class="max-w-2xl mx-auto py-12 md:py-20">
-    <div class="mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight">About</h1>
-      <div class="w-20 h-1 bg-accent/50 rounded-full"></div>
-    </div>
-    
-    <div class="prose prose-invert prose-lg text-gray-300">
-      <p class="lead text-xl text-gray-200 font-medium mb-8">
-        I'm a Staff Software Engineer bridging the gap between traditional robust infrastructure and the frontier of Agentic AI. I build the foundational platforms that let autonomous agents and engineering teams ship fast without breaking security.
-      </p>
-      
-      <p>
-        I've spent years running multi-tenant Kubernetes platforms across AWS and GCP, replacing managed identity services with open-source IAM, and making GitOps actually work beyond 5 teams. As the industry shifts toward Agentic AI, my focus is ensuring autonomous workflows and LLMs can run securely in multi-tenant environments with proper identity scopes and blast radius containment.
-      </p>
-      
-      <p>
-        I write about what I learn, because building it is only half the battle. Explaining the tradeoffs, the architectural decisions, and the failure modes is just as important. 
-      </p>
-      
-      <div class="mt-12 py-8 border-t border-white/10">
-        <h2 class="text-2xl font-bold font-heading mb-6 text-white">Contact & Connect</h2>
-        <ul class="space-y-4 list-none pl-0">
-          <li class="flex items-center gap-4">
-            <span class="text-accent/60 font-mono text-sm uppercase tracking-wider w-24">Email</span>
-            <a href="mailto:hello@viswaroop.dev" class="text-gray-300 hover:text-white transition-colors">hello@viswaroop.dev</a>
-          </li>
-          <li class="flex items-center gap-4">
-            <span class="text-accent/60 font-mono text-sm uppercase tracking-wider w-24">GitHub</span>
-            <a href="https://github.com/vviswaroop" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">github.com/vviswaroop</a>
-          </li>
-          <li class="flex items-center gap-4">
-            <span class="text-accent/60 font-mono text-sm uppercase tracking-wider w-24">LinkedIn</span>
-            <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">linkedin.com/in/viswaroopvadlamudi</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Resume / Speaking -->
-      <div class="mt-12 p-6 bg-surface border border-white/5 rounded-xl text-center">
-        <p class="mb-6">
-          I'm available for conference talks and podcasts on platform engineering, identity systems, and GitOps at scale.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="mailto:hello@viswaroop.dev?subject=Speaking%20Inquiry" class="btn">
-            Speaker Inquiry
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
+<Layout title="About me" description="I’m Viswaroop, a staff software engineer interested in platforms, identity, and ideas that survive contact with real life.">
+<header class="page-heading"><p class="eyebrow blue">The notebook / The person behind it</p><h1>Hello, I’m Viswaroop.</h1><p>I build platforms. I care about the boundaries between things. And I write to understand what I’ve learned.</p></header>
+<div class="page-body two-col"><div class="prose"><p>I’m a Staff Software Engineer focused on platform and identity systems. I’ve spent years running multi-tenant Kubernetes platforms across AWS and GCP, replacing managed identity services with open-source IAM, and making GitOps work as teams grow.</p><p>The parts I find interesting are rarely contained in a single tool. They show up between teams, between authentication and authorization, and between an architecture diagram and the system people actually operate.</p><h2>What I’m working through</h2><p>Lately, I’ve been exploring what those boundaries mean for autonomous agents: scoped identity, isolated execution, and workflows that act on behalf of people. I’m keeping that exploration separate from the systems I’ve already built. Both belong in the notebook.</p><h2>Beyond the terminal</h2><p>Reading is another way I work through ideas. In my 2025 notes, I tracked what I applied rather than how many passages I highlighted—from taking ownership during incidents to creating calmer environments at home.</p><p>I’m interested in the ideas that cross over: how a book on leadership changes an incident review, or how a lesson about focus changes the way I build.</p><p><a href="/blog/2026-01-05-books-i-read-in-2025/">These are the books, and the ideas, that stayed with me.</a></p><h2>Why this space exists</h2><p>Building something is only half the work. Explaining the decisions, the failure modes, and what I’d reconsider makes the learning useful to someone else. That’s what I want this site to hold.</p></div>
+<aside class="side-note"><p class="eyebrow blue">Elsewhere on the internet</p><h2>A few ways<br/>to find me.</h2><p><a href="https://www.linkedin.com/in/viswaroopvadlamudi/">LinkedIn ↗</a><br/>Professional background & connections.</p><p><a href="https://github.com/vviswaroop">GitHub ↗</a><br/>Code and ongoing experiments.</p><p><a href="mailto:hello@viswaroop.dev">Email ↗</a><br/>An open thread for a good conversation.</p><hr style="border:0;border-top:1px solid #cbd3ee;margin:22px 0"/><p>I’m also available for conference talks and podcasts about platforms, identity, and GitOps.</p><a class="text-link" href="mailto:hello@viswaroop.dev?subject=Speaking%20inquiry">Speaking inquiries ↗</a></aside>
+</div>
 </Layout>
