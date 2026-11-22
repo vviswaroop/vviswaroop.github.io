@@ -42,7 +42,7 @@ The trap is believing that any single one of these can solve the whole puzzle. A
 
 ### 1. The ReBAC "Tuple Explosion" (Dynamic Context)
 
-Zanzibar is built for structural, relatively stable relationships: `user:alice` is `member` of `group:platform`.
+Zanzibar is built for structural, relatively stable relationships: `user:123` is `member` of `group:platform`.
 
 When teams try to model dynamic business rules in Zanzibar, disaster strikes:
 
@@ -75,7 +75,7 @@ Rules engines aren't graph-blind. Cedar has entity hierarchies (`principal in Gr
 
 What happens when the policy becomes:
 
-> *"Allow if Alice is in a team that was assigned to a workspace whose parent organization has granted read rights to this project"?*
+> *"Allow if the user is in a team that was assigned to a workspace whose parent organization has granted read rights to this project"?*
 
 To evaluate that, the rules engine either:
 
@@ -94,30 +94,30 @@ Point checks are straightforward:
 
 ```text
 GET /documents/42
-→ Is Alice allowed to view Document 42?
-→ Check(Alice, view, doc:42) → ALLOW (2ms)
+→ Is the user allowed to view Document 42?
+→ Check(user, view, doc:42) → ALLOW (2ms)
 ```
 
 Listing and paginating is entirely different:
 
 ```text
 GET /documents?page=1&sort=updated_at_desc
-→ Return 20 documents that Alice is allowed to see.
+→ Return 20 documents that the user is allowed to see.
 ```
 
 There are three common ways naive teams attempt this, and all three fail:
 
 * **Approach A: Post-Filter in Memory.**  
   Fetch 20 documents from the database, loop through them, and call `check()` on each one.  
-  *Why it breaks:* If Alice only has access to 2 of those 20 documents, the response returns 2 items instead of 20. Pagination, infinite scrolling, and item counts (`Total: 1,420`) break completely.
+  *Why it breaks:* If the user only has access to 2 of those 20 documents, the response returns 2 items instead of 20. Pagination, infinite scrolling, and item counts (`Total: 1,420`) break completely.
 
 * **Approach B: ReBAC `ListObjects` + SQL `WHERE IN`.**  
-  Ask the ReBAC engine: `list_objects(user:alice, relation:viewer, type:document)` (OpenFGA `ListObjects`, SpiceDB `LookupResources`).  
-  *Why it breaks:* In an enterprise organization, Alice might have access to 85,000 documents via shared team folders. The engine walks the graph and returns 85,000 IDs. Passing 85,000 parameters to `SELECT * FROM documents WHERE id IN ($1, ... $85000) LIMIT 20` brings the database query planner to a complete halt.
+  Ask the ReBAC engine: `list_objects(user:123, relation:viewer, type:document)` (OpenFGA `ListObjects`, SpiceDB `LookupResources`).  
+  *Why it breaks:* In an enterprise organization, a user might have access to 85,000 documents via shared team folders. The engine walks the graph and returns 85,000 IDs. Passing 85,000 parameters to `SELECT * FROM documents WHERE id IN ($1, ... $85000) LIMIT 20` brings the database query planner to a complete halt.
 
 * **Approach C: Replicating Permissions into the Database.**  
   Syncing Zanzibar permissions or OPA rules directly into columns or auxiliary tables in the primary database.  
-  *Why it breaks:* Distributed consistency. As soon as you have two sources of truth, synchronization lag creates security holes. Revoking an employee's access in the identity platform doesn't immediately reflect in the database index, leading to ghost access.
+  *Why it breaks:* Distributed consistency. As soon as you have two sources of truth, synchronization lag creates security holes. Revoking a user's access in the identity platform doesn't immediately reflect in the database index, leading to ghost access.
 
 ---
 
@@ -169,7 +169,7 @@ Evaluates ephemeral, coarse-grained perimeter conditions before hitting business
 
 For any point action (`PUT /documents/42`, `POST /transfers`):
 
-- **ReBAC check:** Does `user:alice` have `editor` relation on `doc:42`? (Traverses team/folder graph).
+- **ReBAC check:** Does the user have `editor` relation on `doc:42`? (Traverses team/folder graph).
 - **Rules check:** Does the payload satisfy business invariants? (e.g., Is document locked? Is transfer amount within daily cap?).
 
 **Latency:** Fast because point checks have bounded graph depth and are aggressively cached.
@@ -183,8 +183,8 @@ The idea isn't new. OPA's partial evaluation can compile a policy into a residua
 To solve the list dilemma without $N+1$ checks or giant `IN` clauses, mature architectures compile those coarse scopes into the query itself:
 
 1. **Tenant Partitioning:** Hard boundary at `tenant_id` (always first in compound indexes).
-2. **Hierarchical Ancestor Tokens:** Rather than asking for millions of individual leaf object IDs, objects store a coarse ancestor boundary (e.g. `workspace_id` or `folder_path`). Resolving which workspaces Alice can see is a cheap lookup against the ReBAC engine—dozens of IDs, not tens of thousands.
-3. **Direct Shares:** Coarse scopes alone miss one case: a document shared directly with Alice from a workspace she doesn't belong to. So the compiler also resolves her direct grants only (no graph walk, so the list stays bounded) and unions them in:
+2. **Hierarchical Ancestor Tokens:** Rather than asking for millions of individual leaf object IDs, objects store a coarse ancestor boundary (e.g. `workspace_id` or `folder_path`). Resolving which workspaces the user can access is a cheap lookup against the ReBAC engine—dozens of IDs, not tens of thousands.
+3. **Direct Shares:** Coarse scopes alone miss one case: a document shared directly with a user from a workspace they don't belong to. So the compiler also resolves their direct grants only (no graph walk, so the list stays bounded) and unions them in:
 
 ```sql
 SELECT id, title, updated_at
@@ -197,7 +197,7 @@ ORDER BY updated_at DESC, id DESC
 LIMIT 25;
 ```
 
-4. **Post-check the page, not the table:** Coarse scopes can over-include—say, a restricted folder inside a workspace Alice belongs to. So the page is verified with one bulk call (SpiceDB `CheckBulkPermissions`, OpenFGA `BatchCheck`). Unlike Approach A, the database has already done the heavy filtering; the check only removes the rare exception, so a small over-fetch (25 rows for a page of 20) keeps pages full, and the rare short page simply fetches the next batch. The rule that matters: **the coarse scope may over-include, but must never under-include.** The post-check can only remove rows, never add them.
+4. **Post-check the page, not the table:** Coarse scopes can over-include—say, a restricted folder inside a workspace the user belongs to. So the page is verified with one bulk call (SpiceDB `CheckBulkPermissions`, OpenFGA `BatchCheck`). Unlike Approach A, the database has already done the heavy filtering; the check only removes the rare exception, so a small over-fetch (25 rows for a page of 20) keeps pages full, and the rare short page simply fetches the next batch. The rule that matters: **the coarse scope may over-include, but must never under-include.** The post-check can only remove rows, never add them.
 
 Because a user belongs to dozens of workspaces rather than millions of documents, the parameter lists stay small ($< 50$), query plans stay in index range scans, and pagination is deterministic. Prefer keyset pagination (`WHERE (updated_at, id) < (:last_updated_at, :last_id)`) over deep `OFFSET`s. And treat totals as estimates (*"about 1,400 results"*), the way every major search product does.
 
@@ -205,7 +205,7 @@ Because a user belongs to dozens of workspaces rather than millions of documents
 
 ## The Consistency Tax
 
-Three tiers means three places that can disagree. This is Approach C's ghost-access problem in a smaller form: if Alice is removed from a workspace in the ReBAC store but a cached scope still lists that workspace, she can list its documents until the cache expires.
+Three tiers means three places that can disagree. This is Approach C's ghost-access problem in a smaller form: if a user is removed from a workspace in the ReBAC store but a cached scope still lists that workspace, they can list its documents until the cache expires.
 
 Zanzibar solved this with zookies—tokens that say *"evaluate at least as fresh as this write."* SpiceDB calls them ZedTokens; OpenFGA offers a higher-consistency read mode. The practical rules:
 
@@ -217,12 +217,12 @@ Zanzibar solved this with zookies—tokens that say *"evaluate at least as fresh
 
 ## One Request, End to End
 
-Priya searches for *"Q3 contracts"* in Acme Docs:
+A user searches for *"Q3 contracts"* in a document platform:
 
-1. **Edge (Cedar/OPA, ~1ms):** Is her session MFA-verified? Is the tenant active? Does the token carry the `docs:read` scope? No database calls.
-2. **Scope compile:** Her workspaces resolve to `[ws_12, ws_40]`; her direct shares to `[doc_981]`. The query becomes `WHERE tenant_id = $1 AND (workspace_id = ANY($2) OR id = ANY($3)) AND title ILIKE $4`.
-3. **Post-check:** One bulk check over the 25 returned rows drops 2 (a restricted legal folder). She sees a full page of 20.
-4. **She edits `doc_981`:** A point check via ReBAC (`can_edit`) plus a domain rule (the contract isn't locked for signature). The write returns a consistency token for her next read.
+1. **Edge (Cedar/OPA, ~1ms):** Is the user's session MFA-verified? Is the tenant active? Does the token carry the `docs:read` scope? No database calls.
+2. **Scope compile:** The user's accessible workspaces resolve to `[ws_12, ws_40]`; direct shares resolve to `[doc_981]`. The query becomes `WHERE tenant_id = $1 AND (workspace_id = ANY($2) OR id = ANY($3)) AND title ILIKE $4`.
+3. **Post-check:** One bulk check over the 25 returned rows drops 2 (a restricted legal folder). The user sees a full page of 20 results.
+4. **The user edits `doc_981`:** A point check via ReBAC (`can_edit`) plus a domain rule (the contract isn't locked for signature). The write returns a consistency token for their next read.
 
 Each tier does only what it's good at—and none of them would survive doing the whole job alone.
 
