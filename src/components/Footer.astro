@@ -1,26 +1,8 @@
 ---
-const currentYear = new Date().getFullYear();
+const year = new Date().getFullYear();
 ---
-
-<footer class="mt-20 border-t border-[var(--border-subtle)] py-12 bg-[var(--bg-card)] backdrop-blur-xl relative font-sans">
-  <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="flex flex-col items-center md:items-start gap-1">
-      <span class="font-heading font-bold text-[var(--text-primary)] tracking-tight text-base">Viswaroop Vadlamudi</span>
-      <span class="text-xs font-mono text-[var(--text-muted)]">Staff Software Engineer &bull; Identity & Platform Infrastructure</span>
-    </div>
-
-    <div class="flex items-center gap-4 text-xs font-mono text-[var(--text-muted)]">
-      <a href="https://github.com/vviswaroop" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent)] transition-colors">GitHub ↗</a>
-      <span>&middot;</span>
-      <a href="https://linkedin.com/in/viswaroopvadlamudi" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent)] transition-colors">LinkedIn ↗</a>
-      <span>&middot;</span>
-      <a href="/rss.xml" class="hover:text-[var(--accent)] transition-colors">RSS ↗</a>
-      <span>&middot;</span>
-      <a href="mailto:hello@viswaroop.dev" class="hover:text-[var(--accent)] transition-colors">hello@viswaroop.dev</a>
-    </div>
-
-    <div class="text-xs font-mono text-[var(--text-muted)]">
-      &copy; {currentYear} &bull; Built with Astro & Tailwind
-    </div>
-  </div>
+<footer class="footer">
+  <span>© {year} Viswaroop Vadlamudi</span>
+  <div class="footer-links"><a href="https://github.com/vviswaroop">GitHub ↗</a><a href="https://www.linkedin.com/in/viswaroopvadlamudi/">LinkedIn ↗</a><a href="/rss.xml">RSS ↗</a><a href="/services/">Consulting</a></div>
+  <a href="#top">Back to top ↑</a>
 </footer>

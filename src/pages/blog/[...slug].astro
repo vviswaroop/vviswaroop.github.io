@@ -1,148 +1,18 @@
 ---
-import { getCollection } from 'astro:content';
+import {getCollection} from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Newsletter from '../../components/Newsletter.astro';
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post }
-  }));
-}
-
-const { post } = Astro.props;
-const { Content, headings } = await post.render();
-const toc = headings.filter(h => h.depth > 1 && h.depth <= 3);
-const readingTime = Math.ceil(post.body.trim().split(/\s+/).length / 200);
-const formattedDate = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC'
-}).format(post.data.date);
+export async function getStaticPaths(){return (await getCollection('blog')).map(post=>({params:{slug:post.slug},props:{post}}))}
+const {post}=Astro.props;
+const {Content,headings}=await post.render();
+const toc=headings.filter(h=>h.depth>1&&h.depth<=3);
+const readingTime=Math.ceil(post.body.trim().split(/\s+/).length/200);
+const formattedDate=new Intl.DateTimeFormat('en-US',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'}).format(post.data.date);
 ---
-
-<Layout 
-  title={post.data.title} 
-  description={post.data.description || `${post.data.title} — engineering note by ${post.data.author}.`} 
-  article={true} 
-  publishDate={post.data.date} 
-  author={post.data.author}
->
-  <!-- Reading Progress Bar -->
-  <div id="reading-progress" class="fixed top-0 left-0 h-1 bg-[var(--accent)] z-50 transition-all duration-75 w-0"></div>
-
-  <div class="py-6 md:py-10 max-w-4xl mx-auto">
-    <!-- Back to Writing -->
-    <a href="/blog/" class="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--accent)] hover:underline mb-6">
-      ← Back to field notes
-    </a>
-
-    <!-- Article Header -->
-    <header class="mb-10 pb-8 border-b border-[var(--border-subtle)]">
-      <div class="flex items-center gap-3 text-xs font-mono text-[var(--text-muted)] mb-3">
-        <time datetime={post.data.date.toISOString()} class="text-[var(--accent)]">{formattedDate}</time>
-        <span>&middot;</span>
-        <span>{readingTime} min read</span>
-        <span>&middot;</span>
-        <span>{post.data.author}</span>
-      </div>
-
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-[var(--text-primary)] leading-[1.15] mb-4">
-        {post.data.title}
-      </h1>
-
-      <div class="flex flex-wrap gap-1.5 mt-4">
-        {post.data.tags.map((tag: string) => (
-          <a href={`/tags/${tag.toLowerCase()}/`} class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors">
-            #{tag}
-          </a>
-        ))}
-      </div>
-    </header>
-
-    <!-- Main Layout: Content + Dynamic ToC -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      
-      <!-- Article Content Body -->
-      <article class="lg:col-span-8 prose prose-invert max-w-none text-[var(--text-secondary)] leading-relaxed">
-        <Content />
-        
-        <div class="mt-14 pt-8 border-t border-[var(--border-subtle)]">
-          <Newsletter />
-        </div>
-
-        <div class="mt-8 flex items-center justify-between text-xs font-mono text-[var(--text-muted)]">
-          <a href="/blog/" class="hover:text-[var(--accent)]">← Return to all field notes</a>
-          <a href={`https://github.com/vviswaroop/vviswaroop.github.io/blob/main/src/content/blog/${post.id}`} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--accent)]">Suggest edit on GitHub ↗</a>
-        </div>
-      </article>
-
-      <!-- Sticky Table of Contents -->
-      {toc.length > 0 && (
-        <aside class="hidden lg:block lg:col-span-4 sticky top-24 craft-card p-5 text-xs font-mono">
-          <h2 class="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3 pb-2 border-b border-[var(--border-subtle)] flex items-center justify-between">
-            <span>On This Page</span>
-            <span class="text-[10px] text-[var(--accent)]">{toc.length} sections</span>
-          </h2>
-          <nav aria-label="Table of Contents" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
-            {toc.map(h => (
-              <a
-                href={`#${h.slug}`}
-                class={`block transition-colors hover:text-[var(--accent)] ${
-                  h.depth === 3 ? 'pl-3 text-[var(--text-muted)]' : 'text-[var(--text-secondary)] font-medium'
-                }`}
-              >
-                {h.text}
-              </a>
-            ))}
-          </nav>
-        </aside>
-      )}
-
-    </div>
-  </div>
-
-  <!-- Scroll Progress & Copy Button Script -->
-  <script>
-    function setupArticle() {
-      // Reading progress bar
-      const bar = document.getElementById('reading-progress');
-      window.addEventListener('scroll', () => {
-        if (!bar) return;
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        if (total <= 0) return;
-        const progress = (window.scrollY / total) * 100;
-        bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-      }, { passive: true });
-
-      // 1-Click Code Block Copy
-      document.querySelectorAll('pre').forEach((block) => {
-        if (block.querySelector('.copy-btn')) return;
-        block.style.position = 'relative';
-
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn absolute top-3 right-3 px-2 py-1 rounded bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer';
-        btn.textContent = 'Copy';
-        btn.setAttribute('aria-label', 'Copy code block to clipboard');
-
-        btn.addEventListener('click', async () => {
-          const code = block.querySelector('code')?.innerText || block.innerText;
-          await navigator.clipboard.writeText(code);
-          btn.textContent = 'Copied!';
-          btn.style.borderColor = 'var(--accent)';
-          setTimeout(() => {
-            btn.textContent = 'Copy';
-            btn.style.borderColor = 'var(--border-subtle)';
-          }, 2000);
-        });
-
-        block.appendChild(btn);
-      });
-    }
-
-    setupArticle();
-    document.addEventListener('astro:page-load', setupArticle);
-  </script>
+<Layout title={post.data.title} description={post.data.description||`${post.data.title} — notes by ${post.data.author}.`} article={true} publishDate={post.data.date} author={post.data.author}>
+<header class="page-heading"><a href="/blog/" class="eyebrow blue">← Back to the notebook</a><h1 style="max-width:960px;font-size:clamp(38px,5vw,62px)">{post.data.title}</h1><div class="article-meta"><time datetime={post.data.date.toISOString()}>{formattedDate}</time><span>{readingTime} min read</span><span>{post.data.author}</span></div></header>
+<div class="page-body"><div class="tags">{post.data.tags.map((tag:string)=><a class="tag" href={`/tags/${tag.toLowerCase()}/`}>{tag}</a>)}</div>
+<div class="article-layout"><article><div class="prose"><Content/></div><Newsletter/><footer class="article-footer"><a href="/blog/">← All writing</a><a href={`https://github.com/vviswaroop/vviswaroop.github.io/blob/main/src/content/blog/${post.id}`}>Suggest an edit on GitHub ↗</a></footer></article>
+{toc.length>0&&<aside class="article-toc"><details open><summary class="eyebrow muted">In this note</summary><nav aria-label="On this page"><ul>{toc.map(h=><li class={h.depth===3?'nested':''}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ul></nav></details></aside>}
+</div></div>
 </Layout>
