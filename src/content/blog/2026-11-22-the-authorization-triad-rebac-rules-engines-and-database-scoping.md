@@ -1,8 +1,8 @@
 ---
-title: "The Authorization Triad: Why Real Systems Can’t Pick Just One"
+title: "The Authorization Triad: ReBAC, Rules Engines, and Database Scoping (and Why Real Systems Need All Three)"
+description: "Why no single authorization model scales: a production blueprint combining ReBAC (SpiceDB/OpenFGA), policy engines (OPA/Cedar), and SQL scoping for fast, correct search."
 date: 2026-11-22
 tags: ["Identity", "Platform", "Architecture"]
-description: "How relationship engines (ReBAC), rules engines (ABAC), and database scoping collide at scale — and why production systems must compose them."
 ---
 
 > **TL;DR:** Vendor pitches promise that a single authorization tool—Zanzibar, OPA, or Postgres RLS—can solve the entire problem. In production, forcing one paradigm outside its sweet spot leads to tuple explosion, graph exhaustion, or unpaginated query timeouts. High-performing systems don't pick one; they layer them across the request lifecycle.
@@ -10,6 +10,7 @@ description: "How relationship engines (ReBAC), rules engines (ABAC), and databa
 <p class="lead">Every engineering team starts authorization with the simplest thing that works: a <code>role</code> column in the <code>users</code> table and a <code>WHERE tenant_id = ?</code> filter in their SQL queries. It is fast, predictable, and leverages relational indexes.</p>
 
 Then the product grows:
+
 - **Enterprise customers demand custom roles:** *"Our IT group needs administrative access, but Billing should only view invoices."*
 - **Hierarchical resource sharing enters:** *"Folders inherit access from parent workspaces, but sub-documents can have external collaborators."*
 - **Dynamic compliance rules arrive:** *"Managers can approve expenses, but only under \$10,000, during working hours, and never for their own submissions."*
@@ -21,7 +22,7 @@ At this inflection point, teams go shopping for an "Authorization Solution." The
 2. **The Policy Camp (ABAC / Rules Engines):** *"Decouple policy from application code. Write declarative rules in OPA Rego or AWS Cedar."*
 3. **The Data Camp (Row-Level Security / SQL Scoping):** *"Centralize enforcement inside PostgreSQL RLS or SQL query wrappers."*
 
-The trap is believing that any single one of these can solve the whole puzzle. At scale, **forcing one tool outside its native domain causes catastrophic latency, memory bloat, or security leaks.**
+The trap is believing that any single one of these can solve the whole puzzle. At scale, forcing one tool outside its native domain causes catastrophic latency, memory bloat, or security leaks.
 
 ---
 
@@ -40,20 +41,25 @@ The trap is believing that any single one of these can solve the whole puzzle. A
 ## Where Each Fails at Scale
 
 ### 1. The ReBAC "Tuple Explosion" (Dynamic Context)
+
 Zanzibar is built for structural, relatively stable relationships: `user:alice` is `member` of `group:platform`.
 
 When teams try to model dynamic business rules in Zanzibar, disaster strikes:
+
 - *"User can only view the medical record if they are on the hospital Wi-Fi."*
 - *"Approver cannot approve if the expense amount exceeds \$5,000."*
 - *"Temporary access expires after 30 minutes of inactivity."*
 
 If you try to write dynamic IP ranges, amounts, or timestamps as relation tuples, your tuple database explodes by orders of magnitude. Every user interaction causes a write-storm to the tuple store, and distributed graph caches thrash continuously.
 
-> **Rule of thumb:** *ReBAC is for structural topology. Never put transient, temporal, or numerical thresholds into a tuple store.*
+To be fair, modern ReBAC engines ship a partial escape hatch: SpiceDB caveats and OpenFGA conditions let you attach a CEL expression to a relationship and evaluate it against request context at check time, so `ip_in_range` or `amount < limit` never becomes a tuple. But the hatch is narrow. The caller must supply the context on every request, list APIs start returning conditional results you have to resolve yourself, and the expression language is deliberately constrained. Caveats are great for a guard rail; they are not a policy language. The moment you're encoding business rules in them, you've rebuilt a rules engine inside your graph.
+
+> **Rule of thumb:** ReBAC is for structural topology. Keep transient, temporal, and numerical thresholds out of the tuple store—use a caveat for a single guard rail, and a rules engine for anything that looks like business logic.
 
 ---
 
 ### 2. The Rules Engine "Graph Exhaustion"
+
 Rules engines like OPA or Cedar are remarkably fast at pure boolean evaluations:
 
 ```text
@@ -65,23 +71,27 @@ allow {
 }
 ```
 
-However, a rules engine **has no native understanding of your relational or hierarchical graph**. 
+Rules engines aren't graph-blind. Cedar has entity hierarchies (`principal in Group::"eng"`), and OPA can walk relationship data shipped to it in bundles. That works well for shallow, slowly changing hierarchies. It breaks down when the graph is deep (`folder → folder → folder → doc`), changes constantly, or is too large to ship to every policy decision point.
 
 What happens when the policy becomes:
+
 > *"Allow if Alice is in a team that was assigned to a workspace whose parent organization has granted read rights to this project"?*
 
 To evaluate that, the rules engine either:
-1. **Requires the caller to pre-fetch the entire organizational graph** and inject it into the `input` JSON payload. Request payloads inflate to megabytes, and network serialization destroys latency.
+
+1. **Requires the caller to pre-fetch the relevant slice of the organizational graph** and inject it into the input JSON payload (or ship the whole graph as bundle data). Payloads inflate to megabytes, bundle sync lags behind writes, and serialization destroys latency.
 2. **Makes HTTP/gRPC calls from inside the policy.** This violates the core design of policy engines, introducing unpredictable network waterfall latencies (turning a 1ms decision into 80ms).
 
-> **Rule of thumb:** *Rules engines are computational, not storage engines. They should evaluate decisions, not traverse deep relational graphs.*
+> **Rule of thumb:** Rules engines are computational, not storage engines. They should evaluate decisions, not traverse deep, fast-changing relational graphs.
 
 ---
 
 ### 3. The Fatal "Search & List" Dilemma
+
 This is the single biggest architectural crisis in authorization at scale.
 
 Point checks are straightforward:
+
 ```text
 GET /documents/42
 → Is Alice allowed to view Document 42?
@@ -89,6 +99,7 @@ GET /documents/42
 ```
 
 Listing and paginating is entirely different:
+
 ```text
 GET /documents?page=1&sort=updated_at_desc
 → Return 20 documents that Alice is allowed to see.
@@ -101,8 +112,8 @@ There are three common ways naive teams attempt this, and all three fail:
   *Why it breaks:* If Alice only has access to 2 of those 20 documents, the response returns 2 items instead of 20. Pagination, infinite scrolling, and item counts (`Total: 1,420`) break completely.
 
 * **Approach B: ReBAC `ListObjects` + SQL `WHERE IN`.**  
-  Ask the ReBAC engine: `list_objects(user:alice, relation:viewer, type:document)`.  
-  *Why it breaks:* In an enterprise organization, Alice might have access to 85,000 documents via shared team folders. Zanzibar returns 85,000 IDs. Passing 85,000 parameters to `SELECT * FROM documents WHERE id IN ($1, ... $85000) LIMIT 20` brings the database query planner to a complete halt.
+  Ask the ReBAC engine: `list_objects(user:alice, relation:viewer, type:document)` (OpenFGA `ListObjects`, SpiceDB `LookupResources`).  
+  *Why it breaks:* In an enterprise organization, Alice might have access to 85,000 documents via shared team folders. The engine walks the graph and returns 85,000 IDs. Passing 85,000 parameters to `SELECT * FROM documents WHERE id IN ($1, ... $85000) LIMIT 20` brings the database query planner to a complete halt.
 
 * **Approach C: Replicating Permissions into the Database.**  
   Syncing Zanzibar permissions or OPA rules directly into columns or auxiliary tables in the primary database.  
@@ -112,7 +123,7 @@ There are three common ways naive teams attempt this, and all three fail:
 
 ## The Production Blueprint: Tiered Request Pipeline
 
-High-scale platforms do not pick one paradigm. They **tier** them across the request lifecycle:
+High-scale platforms do not pick one paradigm. They tier them across the request lifecycle:
 
 ```text
 [ Incoming Request ]
@@ -132,46 +143,102 @@ High-scale platforms do not pick one paradigm. They **tier** them across the req
          └─── Bulk Read / Search (GET /items?page=1)
                    ▼
              [ Stage 2B: Query Pushdown (Scope Compiler) ]
-             • Resolve coarse access tokens (e.g. user's active workspace IDs)
-             • Compile into parameterized SQL AST:
+             • Resolve coarse scopes (user's workspace IDs + direct shares)
+             • Compile into parameterized SQL:
                  WHERE tenant_id = :tenant_id
-                   AND (visibility = 'public' OR workspace_id IN (:workspaces))
-             • Database executes indexed scan, sorting, and LIMIT/OFFSET
+                   AND (visibility = 'public'
+                        OR workspace_id = ANY(:workspaces)
+                        OR id = ANY(:direct_shares))
+             • Database executes indexed scan, sorting, and LIMIT
+             • Bulk-check the page; drop rare in-scope restrictions
 ```
 
 ### Stage 1: Edge Invariant Checks (Rules Engine)
+
 Evaluates ephemeral, coarse-grained perimeter conditions before hitting business services:
+
 - Is the tenant account active or delinquent?
 - Is the caller attempting an admin operation from an unmanaged device?
 - Does the JWT carry the required OAuth2 scopes?
-*Latency:* $< 1$ms, zero database calls, evaluated in-memory at the gateway.
+
+**Latency:** $< 1$ms, zero database calls, evaluated in-memory at the gateway.
+
+---
 
 ### Stage 2A: Point Mutations (ReBAC + Domain Rules)
+
 For any point action (`PUT /documents/42`, `POST /transfers`):
+
 - **ReBAC check:** Does `user:alice` have `editor` relation on `doc:42`? (Traverses team/folder graph).
 - **Rules check:** Does the payload satisfy business invariants? (e.g., Is document locked? Is transfer amount within daily cap?).
-*Latency:* Fast because point checks have bounded graph depth and are aggressively cached.
+
+**Latency:** Fast because point checks have bounded graph depth and are aggressively cached.
+
+---
 
 ### Stage 2B: The Search/List Solution (The Scope Compiler)
-To solve the list dilemma without $N+1$ checks or giant `IN` clauses, mature architectures compile coarse authorization scopes into the query itself:
-- **Tenant Partitioning:** Hard boundary at `tenant_id` (always first in compound indexes).
-- **Hierarchical Ancestor Tokens:** Rather than asking for millions of individual leaf object IDs, objects store a coarse ancestor boundary (e.g. `workspace_id` or `folder_path`). The query planner only checks:
-  ```sql
-  SELECT id, title, updated_at
-  FROM documents
-  WHERE tenant_id = :tenant_id
-    AND (visibility = 'public' 
-         OR workspace_id IN (:user_accessible_workspaces))
-  ORDER BY updated_at DESC
-  LIMIT 20 OFFSET 0;
-  ```
-- Because a user belongs to dozens of workspaces rather than millions of documents, the `IN` list is small ($< 50$), query plans stay in index range scans, and pagination is deterministic.
+
+The idea isn't new. OPA's partial evaluation can compile a policy into a residual query you translate into SQL, and Oso's list filtering does the same for its policy language. The scope compiler borrows the idea and deliberately narrows it: it compiles only to coarse scopes (tenant and workspace IDs) and leaves fine-grained decisions to the ReBAC tier. The SQL stays simple and index-friendly, and the policy language never has to understand your schema.
+
+To solve the list dilemma without $N+1$ checks or giant `IN` clauses, mature architectures compile those coarse scopes into the query itself:
+
+1. **Tenant Partitioning:** Hard boundary at `tenant_id` (always first in compound indexes).
+2. **Hierarchical Ancestor Tokens:** Rather than asking for millions of individual leaf object IDs, objects store a coarse ancestor boundary (e.g. `workspace_id` or `folder_path`). Resolving which workspaces Alice can see is a cheap lookup against the ReBAC engine—dozens of IDs, not tens of thousands.
+3. **Direct Shares:** Coarse scopes alone miss one case: a document shared directly with Alice from a workspace she doesn't belong to. So the compiler also resolves her direct grants only (no graph walk, so the list stays bounded) and unions them in:
+
+```sql
+SELECT id, title, updated_at
+FROM documents
+WHERE tenant_id = :tenant_id
+  AND (visibility = 'public'
+       OR workspace_id = ANY(:user_accessible_workspaces)
+       OR id = ANY(:direct_share_ids))
+ORDER BY updated_at DESC, id DESC
+LIMIT 25;
+```
+
+4. **Post-check the page, not the table:** Coarse scopes can over-include—say, a restricted folder inside a workspace Alice belongs to. So the page is verified with one bulk call (SpiceDB `CheckBulkPermissions`, OpenFGA `BatchCheck`). Unlike Approach A, the database has already done the heavy filtering; the check only removes the rare exception, so a small over-fetch (25 rows for a page of 20) keeps pages full, and the rare short page simply fetches the next batch. The rule that matters: **the coarse scope may over-include, but must never under-include.** The post-check can only remove rows, never add them.
+
+Because a user belongs to dozens of workspaces rather than millions of documents, the parameter lists stay small ($< 50$), query plans stay in index range scans, and pagination is deterministic. Prefer keyset pagination (`WHERE (updated_at, id) < (:last_updated_at, :last_id)`) over deep `OFFSET`s. And treat totals as estimates (*"about 1,400 results"*), the way every major search product does.
+
+---
+
+## The Consistency Tax
+
+Three tiers means three places that can disagree. This is Approach C's ghost-access problem in a smaller form: if Alice is removed from a workspace in the ReBAC store but a cached scope still lists that workspace, she can list its documents until the cache expires.
+
+Zanzibar solved this with zookies—tokens that say *"evaluate at least as fresh as this write."* SpiceDB calls them ZedTokens; OpenFGA offers a higher-consistency read mode. The practical rules:
+
+- **Writes return a consistency token**, and the next sensitive read honors it.
+- **Scope caches are invalidated on membership change events**, not just on a TTL timer. Keep any TTL short.
+- **Revocation is the path you test.** Granting access late annoys a user; revoking it late is an incident.
+
+---
+
+## One Request, End to End
+
+Priya searches for *"Q3 contracts"* in Acme Docs:
+
+1. **Edge (Cedar/OPA, ~1ms):** Is her session MFA-verified? Is the tenant active? Does the token carry the `docs:read` scope? No database calls.
+2. **Scope compile:** Her workspaces resolve to `[ws_12, ws_40]`; her direct shares to `[doc_981]`. The query becomes `WHERE tenant_id = $1 AND (workspace_id = ANY($2) OR id = ANY($3)) AND title ILIKE $4`.
+3. **Post-check:** One bulk check over the 25 returned rows drops 2 (a restricted legal folder). She sees a full page of 20.
+4. **She edits `doc_981`:** A point check via ReBAC (`can_edit`) plus a domain rule (the contract isn't locked for signature). The write returns a consistency token for her next read.
+
+Each tier does only what it's good at—and none of them would survive doing the whole job alone.
 
 ---
 
 ## Architectural Checklist for Practitioners
 
-1. **Don't put timestamps, weather, or wallet balances into Zanzibar tuples.** Use ReBAC strictly for identity-to-resource topology.
+1. **Don't put timestamps, weather, or wallet balances into Zanzibar tuples.** Use ReBAC strictly for identity-to-resource topology; reach for caveats/conditions only for narrow guard rails.
 2. **Don't query foreign databases inside OPA rules.** Pass contextual data in the input payload, or evaluate policy at the boundary where data is already available.
 3. **Never separate your list queries from your authorization model.** If your authorization architecture cannot explain how a paginated table of 100,000 items is rendered in $< 50$ms, the architecture is incomplete.
 4. **Treat database scoping as a first-class tier.** Use compiled query filters or RLS for bulk reads, and use ReBAC/ABAC engines for point reads and state mutations.
+5. **Coarse scopes may over-include, never under-include.** Post-check the page, not the table.
+6. **Design for revocation latency.** Consistency tokens on writes, event-driven cache invalidation, and a test for *"access removed → gone within seconds."*
+
+---
+
+<p class="mt-8 border-t border-[var(--line)] pt-6 text-sm text-[var(--muted)]">
+  Designing authorization for a multi-tenant product, or migrating off a role column? I help teams untangle exactly this. <a href="/services/" class="text-link">Get in touch <span aria-hidden="true">→</span></a>
+</p>
