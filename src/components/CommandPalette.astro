@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const searchItems = [
+  { title: 'Home Page', category: 'Navigation', url: '/', icon: '🏠', desc: 'Landing page & live sandbox' },
+  { title: 'Work & Architecture Dossiers', category: 'Navigation', url: '/work/', icon: '⚡', desc: 'Systems, GitOps, and Identity platforms' },
+  { title: 'Writing / Engineering Notebook', category: 'Navigation', url: '/blog/', icon: '📝', desc: '10 field notes and deep dives' },
+  { title: 'About Viswaroop', category: 'Navigation', url: '/about/', icon: '👤', desc: 'Background, values, and contact' },
+  { title: 'Services & Advisory', category: 'Navigation', url: '/services/', icon: '💼', desc: 'Agentic AI architecture reviews' },
+  { title: 'Now (What I am building)', category: 'Navigation', url: '/now/', icon: '🚀', desc: 'Active projects, learning, and reading' },
+  ...posts.map(p => ({
+    title: p.data.title,
+    category: 'Blog Post',
+    url: `/blog/${p.slug}/`,
+    icon: '📄',
+    desc: p.data.tags.join(', ')
+  }))
+];
+---
+
+<!-- Modern Web Guidance: Accessible Modal Dialog with Light-Dismiss -->
+<dialog
+  id="cmd-k-dialog"
+  closedby="any"
+  aria-labelledby="cmd-k-title"
+  class="fixed inset-0 z-50 p-4 md:p-8 w-full max-w-2xl mx-auto rounded-3xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-[var(--text-primary)] shadow-2xl transition-all duration-200"
+>
+  <div class="flex items-center justify-between border-b border-[var(--border-subtle)] pb-4 mb-4">
+    <div class="flex items-center gap-3 flex-1">
+      <svg class="w-5 h-5 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="cmd-k-input"
+        type="search"
+        placeholder="Type to search articles, systems, or jump to page..."
+        class="w-full bg-transparent border-none text-[var(--text-primary)] text-sm md:text-base focus:outline-none placeholder:text-[var(--text-muted)] font-mono"
+        aria-label="Search dialog input"
+        autofocus
+      />
+    </div>
+    <kbd class="px-2 py-0.5 text-xs font-mono bg-[var(--tag-bg)] border border-[var(--border-subtle)] rounded text-[var(--text-muted)]">ESC</kbd>
+  </div>
+
+  <h2 id="cmd-k-title" class="sr-only">Command Palette Navigation and Search</h2>
+
+  <div id="cmd-k-results" class="max-h-[380px] overflow-y-auto flex flex-col gap-1 pr-1 font-sans">
+    {searchItems.map((item, index) => (
+      <a
+        href={item.url}
+        data-index={index}
+        data-search={`${item.title} ${item.category} ${item.desc}`.toLowerCase()}
+        class="cmd-k-item flex items-center justify-between p-3 rounded-xl hover:bg-[var(--tag-bg)] hover:border-[var(--border-hover)] border border-transparent transition-all group cursor-pointer"
+      >
+        <div class="flex items-center gap-3">
+          <span class="text-base font-mono text-[var(--accent)]">{item.icon}</span>
+          <div>
+            <span class="block text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">{item.title}</span>
+            <span class="block text-xs font-mono text-[var(--text-muted)] mt-0.5">{item.desc}</span>
+          </div>
+        </div>
+        <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[var(--tag-bg)] text-[var(--text-muted)] border border-[var(--border-subtle)]">{item.category}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="border-t border-[var(--border-subtle)] pt-3 mt-4 flex items-center justify-between text-xs text-[var(--text-muted)] font-mono">
+    <div class="flex items-center gap-3">
+      <span><kbd class="px-1.5 py-0.5 bg-[var(--tag-bg)] border border-[var(--border-subtle)] rounded">↑↓</kbd> Navigate</span>
+      <span><kbd class="px-1.5 py-0.5 bg-[var(--tag-bg)] border border-[var(--border-subtle)] rounded">↵</kbd> Select</span>
+    </div>
+    <span class="text-[11px] opacity-70">viswaroop.dev navigation</span>
+  </div>
+</dialog>
+
+<script>
+  function setupCommandPalette() {
+    const dialog = document.getElementById('cmd-k-dialog') as HTMLDialogElement | null;
+    const input = document.getElementById('cmd-k-input') as HTMLInputElement | null;
+    const items = document.querySelectorAll<HTMLAnchorElement>('.cmd-k-item');
+
+    function openPalette() {
+      if (!dialog) return;
+      if (!dialog.open) {
+        dialog.showModal();
+        if (input) {
+          input.value = '';
+          filterItems('');
+          input.focus();
+        }
+      }
+    }
+
+    function closePalette() {
+      if (dialog && dialog.open) {
+        dialog.close();
+      }
+    }
+
+    function filterItems(query: string) {
+      const q = query.toLowerCase().trim();
+      items.forEach((item) => {
+        const text = item.getAttribute('data-search') || '';
+        item.style.display = q === '' || text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    input?.addEventListener('input', (e) => {
+      filterItems((e.target as HTMLInputElement).value);
+    });
+
+    // Shortcut listener: ⌘K or Ctrl+K
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (dialog?.open) {
+          closePalette();
+        } else {
+          openPalette();
+        }
+      }
+    });
+
+    window.addEventListener('open-cmd-k', openPalette);
+
+    // Modern Web Guidance: Light-dismiss fallback for browsers without closedby support
+    if (dialog && !('closedBy' in HTMLDialogElement.prototype)) {
+      dialog.addEventListener('click', (event) => {
+        if (event.target !== dialog) return;
+        const rect = dialog.getBoundingClientRect();
+        const inside = (
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width
+        );
+        if (!inside) dialog.close();
+      });
+    }
+  }
+
+  setupCommandPalette();
+  document.addEventListener('astro:page-load', setupCommandPalette);
+</script>
