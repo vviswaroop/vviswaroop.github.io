@@ -3,15 +3,153 @@ import Layout from '../layouts/Layout.astro';
 import SystemPlate from '../components/SystemPlate.astro';
 import AgentSandboxDemo from '../components/AgentSandboxDemo.astro';
 ---
-<Layout title="Work" description="An atlas of platforms, identity systems, and the decisions behind them. Engineering work by Viswaroop Vadlamudi.">
-<div class="atlas-topline"><a href="/">PERSONAL ATLAS</a><span>01 / SYSTEMS</span></div>
-<header class="work-heading"><div><p class="eyebrow orange">Built, operated, reconsidered.</p><h1>UNDER THE<br/>SURFACE<span class="orange">.</span></h1></div><p>A system diagram shows the connections.<br/><br/>These are the decisions underneath them.</p></header>
-<nav class="project-index" aria-label="Jump to a system"><a href="#multi-cloud"><span>01</span> Delivery across clouds ↘</a><a href="#identity"><span>02</span> Owning identity ↘</a><a href="#reliability"><span>03</span> Reliability loops ↘</a><a href="#agents"><span>04</span> Agent boundaries ↘</a></nav>
-<div class="page-body">
-<section class="dossier" id="multi-cloud"><header class="dossier-head"><span class="dossier-number">01</span><div><p class="eyebrow">Platform engineering / Architecture & implementation</p><h2>Different clouds.<br/>One way to ship.</h2></div><span class="dossier-code">SYS—001</span></header><SystemPlate kind="platform"/><div class="plate-caption"><span>FIG. 01 — DELIVERY CONTRACT</span><span>Argo CD / Kustomize / Helm / EKS / GKE</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>More teams meant more deployment scripts, console changes, and coordination. The platform needed a delivery path that stayed understandable as it grew.</p></div><div><p class="eyebrow">My contribution</p><p>I designed a multi-tenant GitOps platform across EKS and GKE, with tenant quotas, network policies, promotion pipelines, and operational readiness in the templates.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Standardize the delivery contract. Keep the cloud-specific tradeoffs visible.</p></div></div><details class="implementation"><summary>Inside the implementation <span aria-hidden="true">+</span></summary><div class="prose"><ul><li>Tenant-aware namespaces with resource quotas and network policies.</li><li>Promotion pipelines that account for blast radius before production.</li><li>Logging, metrics, and SLO definitions embedded in deployment templates.</li></ul><p>The operational differences between clouds still matter. A consistent delivery path should make those differences explicit, rather than pretend they don’t exist.</p></div></details><a class="dossier-related" href="/blog/2025-12-22-argo-cd-vs-flux-in-production/"><span>CONNECTED NOTE</span> Argo CD vs Flux in production <b aria-hidden="true">↗</b></a></section>
-<section class="dossier" id="identity"><header class="dossier-head"><span class="dossier-number">02</span><div><p class="eyebrow">Identity & tenancy / Architecture & migration</p><h2>Own the boundary.<br/>Not just the login.</h2></div><span class="dossier-code">SYS—002</span></header><SystemPlate kind="identity"/><div class="plate-caption"><span>FIG. 02 — SEPARATE RESPONSIBILITIES</span><span>ORY Hydra / Kratos / Keto / OAuth2</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>B2B multi-tenancy, enterprise SSO, and fine-grained permissions were pushing beyond the existing managed identity setup.</p></div><div><p class="eyebrow">My contribution</p><p>I led the architecture and migration from AWS Cognito to ORY, separating authentication, OAuth2 token flows, and relationship-based authorization.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Make each boundary explicit, with clear ownership for the teams integrating with it.</p></div></div><details class="implementation"><summary>Inside the implementation <span aria-hidden="true">+</span></summary><div class="prose"><ul><li>Modeled tenant boundaries and token flows across services.</li><li>Built predictable self-service onboarding for application integrations.</li><li>Used Keto for relationship-based access control.</li></ul><p>Moving providers was one part of the work. Deciding where authentication ends, authorization begins, and product teams take responsibility was the more lasting part.</p></div></details><a class="dossier-related" href="/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem/"><span>CONNECTED NOTE</span> Identity fails at the frontend boundary <b aria-hidden="true">↗</b></a></section>
-<section class="dossier" id="reliability"><header class="dossier-head"><span class="dossier-number">03</span><div><p class="eyebrow">Reliability / Guardrails & operating practices</p><h2>Make the safe path<br/>the obvious one.</h2></div><span class="dossier-code">SYS—003</span></header><SystemPlate kind="reliability"/><div class="plate-caption"><span>FIG. 03 — CLOSE THE LEARNING LOOP</span><span>OPA / SLOs / GitOps / Runbooks / ADRs</span></div><div class="decision-grid"><div><p class="eyebrow">The friction</p><p>Manual review gates created delays, while operational expectations stayed disconnected from the way teams shipped.</p></div><div><p class="eyebrow">My contribution</p><p>I embedded policy checks in CI, co-owned SLOs and incident runbooks with product teams, and recorded cost and reliability tradeoffs in ADRs.</p></div><div class="decision-note"><p class="eyebrow">The decision that matters</p><p>Put guardrails in the workflow. Put learning back into the next change.</p></div></div><a class="dossier-related" href="/blog/2026-01-10-observability-on-aws-at-scale-six-years-of-lessons-from-opensearch-eks-and-production-reality/"><span>CONNECTED NOTE</span> Six years of observability lessons <b aria-hidden="true">↗</b></a></section>
-<section class="dossier exploration" id="agents"><header class="dossier-head"><span class="dossier-number">04</span><div><p class="eyebrow orange">Ongoing exploration / Not a production case study</p><h2>What if the caller<br/>isn’t a person?</h2></div><span class="dossier-code">WIP—004</span></header><div class="exploration-intro"><p>I’m exploring how autonomous workflows should act on behalf of users, with scoped identity and isolated execution.</p><p class="question">What has to be true before an agent is allowed to act?</p></div><AgentSandboxDemo/><a class="dossier-related" href="/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform/"><span>CONNECTED NOTE</span> Why agents will break your identity platform <b aria-hidden="true">↗</b></a></section>
-<section class="atlas-signoff"><p>Your system probably has<br/>an interesting boundary, too.</p><a href="/services/">LET’S LOOK AT IT <span aria-hidden="true">↗</span></a></section>
-</div>
+
+<Layout title="Work & Architecture" description="Architectural dossiers of platforms, identity systems, and agent sandboxes by Viswaroop Vadlamudi.">
+  <div class="py-6 md:py-12">
+    <!-- Header -->
+    <header class="mb-10 pb-6 border-b border-[var(--border-subtle)]">
+      <span class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider font-semibold">Architectural Dossiers</span>
+      <h1 class="text-3xl sm:text-5xl font-bold font-heading text-[var(--text-primary)] mt-1 mb-3">Under the Surface</h1>
+      <p class="text-base text-[var(--text-secondary)] max-w-2xl leading-relaxed">
+        System diagrams show the connections. These dossiers explain the decisions, failure modes, and tradeoffs underneath them.
+      </p>
+
+      <!-- Jump Index -->
+      <nav class="flex flex-wrap gap-2 mt-6 font-mono text-xs" aria-label="Jump to a system">
+        <a href="#multi-cloud" class="px-3 py-1.5 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] hover:text-[var(--accent)] transition-all">01 · Multi-Cloud Delivery ↘</a>
+        <a href="#identity" class="px-3 py-1.5 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] hover:text-[var(--accent)] transition-all">02 · Owning Identity ↘</a>
+        <a href="#reliability" class="px-3 py-1.5 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] hover:text-[var(--accent)] transition-all">03 · Reliability Loops ↘</a>
+        <a href="#agents" class="px-3 py-1.5 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] hover:text-[var(--accent)] transition-all">04 · Agent Sandboxes ↘</a>
+      </nav>
+    </header>
+
+    <div class="space-y-16">
+      <!-- Dossier 1: Multi-Cloud -->
+      <section class="craft-card p-6 md:p-8" id="multi-cloud">
+        <div class="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-[var(--border-subtle)]">
+          <div>
+            <span class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider font-semibold">SYS—001 · Platform Engineering</span>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] font-heading mt-1">Different Clouds. One Way to Ship.</h2>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[var(--text-muted)]">Argo CD / EKS / GKE</span>
+        </div>
+
+        <div class="my-6 rounded-xl border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-canvas)] p-4">
+          <SystemPlate kind="platform" />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 text-sm text-[var(--text-secondary)]">
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Friction</h3>
+            <p>More teams meant more deployment scripts, console changes, and coordination friction. The platform needed a delivery contract that stayed consistent as it scaled across clouds.</p>
+          </div>
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Approach</h3>
+            <p>I designed a multi-tenant GitOps platform across EKS and GKE, with tenant resource quotas, network isolation policies, and automated risk-aligned promotion pipelines.</p>
+          </div>
+          <div class="border-l-2 border-[var(--accent)] pl-4">
+            <h3 class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider mb-1 font-bold">The Core Takeaway</h3>
+            <p class="font-heading text-base font-bold text-[var(--text-primary)]">Standardize the delivery contract. Keep the cloud-specific tradeoffs explicit.</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono">
+          <span class="text-[var(--text-muted)]">Stack: Argo CD, Kustomize, Helm, Prometheus</span>
+          <a href="/blog/2025-12-22-argo-cd-vs-flux-in-production/" class="text-[var(--accent)] hover:underline">Read field note: Argo CD vs Flux in Production ↗</a>
+        </div>
+      </section>
+
+      <!-- Dossier 2: Identity -->
+      <section class="craft-card p-6 md:p-8" id="identity">
+        <div class="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-[var(--border-subtle)]">
+          <div>
+            <span class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider font-semibold">SYS—002 · Identity & Tenancy</span>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] font-heading mt-1">Own the Boundary. Not Just the Login.</h2>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[var(--text-muted)]">ORY Hydra / Kratos / Keto</span>
+        </div>
+
+        <div class="my-6 rounded-xl border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-canvas)] p-4">
+          <SystemPlate kind="identity" />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 text-sm text-[var(--text-secondary)]">
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Friction</h3>
+            <p>B2B multi-tenancy, enterprise SSO, and fine-grained permissions were pushing far beyond the limits and lock-in of managed Cognito setups.</p>
+          </div>
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Approach</h3>
+            <p>Led the migration to open-source IAM: separating human authentication (Kratos), OAuth2 token issuance (Hydra), and relationship-based authorization (Keto).</p>
+          </div>
+          <div class="border-l-2 border-[var(--accent)] pl-4">
+            <h3 class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider mb-1 font-bold">The Core Takeaway</h3>
+            <p class="font-heading text-base font-bold text-[var(--text-primary)]">Cost and lock-in tradeoffs must be made explicit before you're three years in.</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono">
+          <span class="text-[var(--text-muted)]">Stack: ORY Hydra, Kratos, Keto, OAuth2/OIDC</span>
+          <a href="/blog/2025-12-21-identity-platforms-fail-at-the-frontend-boundary-part-1-the-boundary-problem/" class="text-[var(--accent)] hover:underline">Read field note: Identity at the Frontend Boundary ↗</a>
+        </div>
+      </section>
+
+      <!-- Dossier 3: Reliability -->
+      <section class="craft-card p-6 md:p-8" id="reliability">
+        <div class="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-[var(--border-subtle)]">
+          <div>
+            <span class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider font-semibold">SYS—003 · Reliability & Operations</span>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] font-heading mt-1">Make the Safe Path the Obvious One.</h2>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[var(--text-muted)]">OPA / SLOs / Observability</span>
+        </div>
+
+        <div class="my-6 rounded-xl border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-canvas)] p-4">
+          <SystemPlate kind="reliability" />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 text-sm text-[var(--text-secondary)]">
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Friction</h3>
+            <p>Manual review gates created friction and delays, while operational expectations remained disconnected from daily development velocity.</p>
+          </div>
+          <div>
+            <h3 class="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider mb-1 font-bold">The Approach</h3>
+            <p>Embedded pre-flight policy checks in CI, co-owned SLOs and runbooks with product squads, and recorded architectural tradeoffs in ADRs.</p>
+          </div>
+          <div class="border-l-2 border-[var(--accent)] pl-4">
+            <h3 class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider mb-1 font-bold">The Core Takeaway</h3>
+            <p class="font-heading text-base font-bold text-[var(--text-primary)]">Guardrails beat gates. Teams self-serve when the golden path is obvious.</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono">
+          <span class="text-[var(--text-muted)]">Stack: OpenSearch, Dynatrace, OPA Gatekeeper</span>
+          <a href="/blog/2026-01-10-observability-on-aws-at-scale-six-years-of-lessons-from-opensearch-eks-and-production-reality/" class="text-[var(--accent)] hover:underline">Read field note: 6 Years of Observability Lessons ↗</a>
+        </div>
+      </section>
+
+      <!-- Dossier 4: Agent Sandboxes -->
+      <section class="craft-card p-6 md:p-8" id="agents">
+        <div class="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-[var(--border-subtle)]">
+          <div>
+            <span class="text-xs font-mono text-[var(--accent)] uppercase tracking-wider font-semibold">WIP—004 · Agentic Infrastructure</span>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] font-heading mt-1">What if the Caller Isn't a Person?</h2>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-[var(--tag-bg)] border border-[var(--border-subtle)] text-[var(--text-muted)]">Zanzibar / MicroVMs / eBPF</span>
+        </div>
+
+        <p class="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
+          Autonomous AI agents act on behalf of users asynchronously for hours at a time. Traditional interactive browser-based OAuth2 redirects fail. Here is how zero-trust execution sandboxes, ephemeral M2M tokens, and relationship checks enforce blast-radius containment:
+        </p>
+
+        <AgentSandboxDemo />
+
+        <div class="mt-6 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono">
+          <span class="text-[var(--text-muted)]">Focus: M2M tokens, Firecracker/gVisor sandboxes</span>
+          <a href="/blog/2026-03-28-why-ai-agents-will-break-your-identity-platform/" class="text-[var(--accent)] hover:underline">Read deep dive: Why AI Agents Will Break Your Identity Platform ↗</a>
+        </div>
+      </section>
+    </div>
+  </div>
 </Layout>

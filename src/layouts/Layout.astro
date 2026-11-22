@@ -3,21 +3,99 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SEO from '../components/SEO.astro';
-interface Props { title: string; description?: string; image?: string; article?: boolean; publishDate?: Date; author?: string; }
-const {title, description='Notes on building platforms, thinking through identity, and learning along the way. The personal website of Viswaroop Vadlamudi.', image, article, publishDate, author} = Astro.props;
+import CommandPalette from '../components/CommandPalette.astro';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishDate?: Date;
+  author?: string;
+}
+
+const {
+  title,
+  description = 'Staff Software Engineer specializing in identity systems, agentic AI workflows, and resilient Kubernetes platforms.',
+  image,
+  article,
+  publishDate,
+  author = 'Viswaroop Vadlamudi'
+} = Astro.props;
+
+const pageTitle = title === 'Home' ? 'Viswaroop Vadlamudi — Staff Platform & Identity Engineer' : `${title} | Viswaroop Vadlamudi`;
 ---
 <!doctype html>
-<html lang="en" id="top">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="description" content={description}/><meta name="theme-color" content="#eeeee7"/>
-  <title>{title === 'Home' ? 'Viswaroop Vadlamudi — A personal atlas' : `${title} | Viswaroop Vadlamudi`}</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-  <link rel="alternate" type="application/rss+xml" title="Viswaroop’s writing" href="/rss.xml"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@500;600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
-  <SEO title={title === 'Home' ? 'Viswaroop Vadlamudi — A personal atlas' : title} description={description} image={image} article={article} publishDate={publishDate} author={author}/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  
+  <!-- Modern Web Guidance: Dark mode FOUC prevention -->
+  <meta name="color-scheme" content="light dark" />
+  <script is:inline>
+    try {
+      const stored = localStorage.getItem("color-scheme");
+      if (stored) {
+        document.querySelector('meta[name="color-scheme"]').content = stored;
+      }
+    } catch (e) {}
+  </script>
+
+  <title>{pageTitle}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate" type="application/rss+xml" title="Viswaroop's writing" href="/rss.xml" />
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <SEO 
+    title={pageTitle} 
+    description={description} 
+    image={image} 
+    article={article} 
+    publishDate={publishDate} 
+    author={author} 
+  />
+
+  <!-- Astro 5 View Transitions -->
+  <ClientRouter />
 </head>
-<body><a href="#main" class="skip-link">Skip to content</a><div class="shell"><Header/><main id="main"><slot/></main><Footer/></div></body>
+<body class="bg-grid-ambient">
+  <!-- Subtle ambient light spotlight -->
+  <div id="mouse-spotlight" class="fixed w-[450px] h-[450px] rounded-full pointer-events-none z-[-1] transition-transform duration-75 -translate-x-1/2 -translate-y-1/2 opacity-0 blur-[120px]" style="background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);"></div>
+
+  <!-- Dynamic Glass Floating Header -->
+  <Header />
+
+  <!-- Main Content Shell -->
+  <main id="main" class="flex-grow w-full max-w-5xl mx-auto px-6 py-8 md:py-16">
+    <slot />
+  </main>
+
+  <!-- High-Craft Footer -->
+  <Footer />
+
+  <!-- Global Command Palette (⌘K) -->
+  <CommandPalette />
+
+  <!-- Mouse tracking spotlight script -->
+  <script>
+    function setupSpotlight() {
+      const spotlight = document.getElementById('mouse-spotlight');
+      if (!spotlight) return;
+      window.addEventListener('mousemove', (e) => {
+        spotlight.style.opacity = '1';
+        spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      }, { passive: true });
+    }
+
+    setupSpotlight();
+    document.addEventListener('astro:page-load', setupSpotlight);
+  </script>
+</body>
 </html>
